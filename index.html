@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--the html tag is always required and starts the file-->
+<html lang="en">
+    <!--the head tag is where all imports and setup happens-->
+<head>
+    <!--Meta is used to set metadata about the file and for SEO
+    This first line sets the file to read a specific character type-->
+    <meta charset="UTF-8">
+    <!-- this is so that the front end can be viewed on laptop or phone-->
+     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+     <!--this is what shows up in a browser page as your title-->
+     <title>Travel App</title>
+     <!--links the CSS file to html by saying stylesheet (means CSS) and the path to the CSS file-->
+     <link rel="stylesheet" href="style.css">
+
+     <!--import React and ReactDOM from CDN-->
+     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<!-- Everything inside the body tag is what the user sees on the web page-->
+<body>
+    <!--This is where React will render your app-->
+    <!--React replaces everythign inside the <div> with my react application-->
+    <div id="root"></div>
+    <!--This is getting the script.js file loaded (have to do this after loading css)-->
+    <script type="text/jsx" src="script.js"></script>
+</body>
+</html>
