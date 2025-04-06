@@ -1,29 +1,51 @@
 <!DOCTYPE html>
-<!--the html tag is always required and starts the file-->
 <html lang="en">
-    <!--the head tag is where all imports and setup happens-->
 <head>
-    <!--Meta is used to set metadata about the file and for SEO
-    This first line sets the file to read a specific character type-->
-    <meta charset="UTF-8">
-    <!-- this is so that the front end can be viewed on laptop or phone-->
-     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-     <!--this is what shows up in a browser page as your title-->
-     <title>Travel App</title>
-     <!--links the CSS file to html by saying stylesheet (means CSS) and the path to the CSS file-->
-     <link rel="stylesheet" href="style.css">
-
-     <!--import React and ReactDOM from CDN-->
-     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel Express - Home</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<!-- Everything inside the body tag is what the user sees on the web page-->
 <body>
-    <!--This is where React will render your app-->
-    <!--React replaces everythign inside the <div> with my react application-->
-    <div id="root"></div>
-    <!--This is getting the script.js file loaded (have to do this after loading css)-->
-    <script type="text/babel" src="script.js"></script>
+  <div class="iphone">
+    <header class="header">
+      <h1>Travel Express</h1>
+    </header>
+
+    <main class="main-content">
+      <section class="section">
+        <h2 class="section-title">My Favorites</h2>
+        <div class="card">
+          <img src="assets/restaurant.jpg" alt="Restaurant" class="card-img">
+          <div class="card-info">
+            <h3 class="card-title">Cafe Roma</h3>
+            <p class="card-distance">1.2 mi away</p>
+            <button class="add-btn">+ Add to Itinerary</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Reviews</h2>
+        <div class="card">
+          <img src="assets/museum.jpg" alt="Museum" class="card-img">
+          <div class="card-info">
+            <h3 class="card-title">City Museum</h3>
+            <p class="card-review">"A must-visit! Very walkable and fun exhibits."</p>
+            <button class="add-btn">+ Add to Itinerary</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <div class="nav-item active"><span>🏠</span><div class="underline"></div></div>
+      <div class="nav-item"><span>❤️</span></div>
+      <div class="nav-item"><span>🗓️</span></div>
+      <div class="nav-item"><span>📝</span></div>
+      <div class="nav-item"><span>👤</span></div>
+    </nav>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
