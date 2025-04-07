@@ -2,17 +2,6 @@
 
 **Travel Express** is an interactive multi-screen prototype designed for planning trips. The application helps users search for locations (e.g., "Cancun"), view recommendations for restaurants, activities, and attractions, manage their itinerary, read and add reviews, and view a sample profile. This project was developed as part of an HCI course.
 
-## Table of Contents
-
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Technologies Used](#technologies-used)
-- [Future Improvements](#future-improvements)
-- [License](#license)
-
 ## Features
 
 - **Search Functionality:**  
