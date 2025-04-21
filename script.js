@@ -17,13 +17,26 @@ let reviews = [
   { title: "Gourmet Bistro", text: "Delicious food and impeccable service." }
 ];
 
+
+/***********************************************
+ * Trip + Itinerary State
+ ***********************************************/
+let trips = [
+  { name: "Default Trip", items: [] }
+];
+let currentTripIndex = 0;
+let selectedPlace = null;  // for scheduling
+
+
 /***********************************************
  * Global State
  ***********************************************/
+// let currentScreen = "homePage";
+// let likedItems = [];
+// let itineraryItems = [];
+// let selectedPlace = null;
 let currentScreen = "homePage";
 let likedItems = [];
-let itineraryItems = [];
-let selectedPlace = null;
 
 /***********************************************
  * Screen Management
@@ -171,7 +184,46 @@ function toggleLike(placeId, btnEl) {
 }
 
 /***********************************************
- * Itinerary Functions with Scheduling
+ * NEW: Trip Management
+ ***********************************************/
+function populateTripSelect() {
+  const sel = document.getElementById("tripSelect");
+  sel.innerHTML = "";
+  trips.forEach((t,i) => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.innerText = t.name;
+    sel.appendChild(opt);
+  });
+  sel.value = currentTripIndex;
+}
+
+function changeTrip() {
+  currentTripIndex = parseInt(document.getElementById("tripSelect").value);
+  renderItinerary();
+}
+
+function createNewTrip() {
+  const name = prompt("Enter a name for your new trip:");
+  if (!name) return;
+  trips.push({ name, items: [] });
+  currentTripIndex = trips.length - 1;
+  populateTripSelect();
+  renderItinerary();
+}
+
+function duplicateTrip() {
+  const orig = trips[currentTripIndex];
+  const copyName = orig.name + " Copy";
+  const newItems = orig.items.map(it => ({ ...it }));
+  trips.push({ name: copyName, items: newItems });
+  currentTripIndex = trips.length - 1;
+  populateTripSelect();
+  renderItinerary();
+}
+
+/***********************************************
+ * Itinerary Functions (upgraded)
  ***********************************************/
 function addToItinerary(place) {
   selectedPlace = place;
@@ -184,67 +236,103 @@ function closeModal() {
 }
 
 function confirmSchedule() {
-  const day = document.getElementById("daySelect").value;
+  const day  = document.getElementById("daySelect").value;
   const time = document.getElementById("timeInput").value;
-  if (!day || !time) {
-    alert("Please select both a day and time.");
+  const dur  = document.getElementById("durationInput").value;
+  if (!day||!time) {
+    alert("Please choose both a day and start time.");
     return;
   }
-  itineraryItems.push({ ...selectedPlace, day, time });
-  alert(`${selectedPlace.name} scheduled for ${day} at ${time}`);
+  // push into the current trip's items
+  trips[currentTripIndex].items.push({
+    ...selectedPlace,
+    day, time, duration: parseFloat(dur)
+  });
   closeModal();
   renderItinerary();
 }
 
-function removeFromItinerary(place) {
-  itineraryItems = itineraryItems.filter(item => item.id !== place.id);
-  alert(place.name + " removed from your itinerary.");
+function removeFromItinerary(item) {
+  let arr = trips[currentTripIndex].items;
+  trips[currentTripIndex].items = arr.filter(i => i.id!==item.id);
   renderItinerary();
 }
 
 function goToItinerary() {
   showScreen("itineraryPage");
+  populateTripSelect();
   renderItinerary();
 }
 
 function renderItinerary() {
-  const calendarGrid = document.getElementById("calendarGrid");
-  const unscheduledList = document.getElementById("unscheduledList");
+  const grid = document.getElementById("calendarGrid");
+  const unsch = document.getElementById("unscheduledList");
+  grid.innerHTML = "";
+  unsch.innerHTML = "";
 
-  calendarGrid.innerHTML = "";
-  unscheduledList.innerHTML = "";
+  const trip = trips[currentTripIndex];
+  document.querySelector("#itineraryPage h2").innerText = trip.name;
 
-  // Create calendar layout for each day
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  daysOfWeek.forEach(day => {
-    const dayDiv = document.createElement("div");
-    dayDiv.className = "calendar-day";
-    const dayHeader = document.createElement("h4");
-    dayHeader.innerText = day;
-    dayDiv.appendChild(dayHeader);
-
-    // Add scheduled items
-    const scheduled = itineraryItems.filter(p => p.day === day && p.time);
-    scheduled.forEach(item => {
-      const block = document.createElement("div");
-      block.className = "calendar-event";
-      block.innerText = `${item.name} (${item.time})`;
-      dayDiv.appendChild(block);
-    });
-
-    calendarGrid.appendChild(dayDiv);
-  });
-
-  // Add unscheduled items
-  const unscheduled = itineraryItems.filter(p => !p.time || !p.day);
-  if (unscheduled.length === 0) {
-    unscheduledList.innerHTML = "<p>No unscheduled experiences.</p>";
+  // 1) Unscheduled
+  const uns = trip.items.filter(i=>!i.time);
+  if (uns.length===0) {
+    unsch.innerHTML = "<p>No unscheduled items.</p>";
   } else {
-    unscheduled.forEach(item => {
-      const card = createCard(item, true, true);
-      unscheduledList.appendChild(card);
+    uns.forEach(it => {
+      const card = createCard(it, true, true);
+      unsch.appendChild(card);
     });
   }
+
+  // 2) Calendar grid
+  // hours 9–20 (you can adjust)
+  const hours = Array.from({length:12},(_,i)=>9+i);
+  // days Mon–Sun
+  const days  = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+  // set dynamic CSS columns
+  grid.style.gridTemplateColumns = `50px repeat(${days.length},1fr)`;
+
+  // first row: blank cell + day headers
+  grid.appendChild(document.createElement("div")); // corner blank
+  days.forEach(d => {
+    const hd = document.createElement("div");
+    hd.className = "calendar-hour";
+    hd.innerText = d;
+    grid.appendChild(hd);
+  });
+
+  // then for each hour: first column hour label, then one cell per day
+  hours.forEach(h=>{
+    // hour gutter
+    const gutter = document.createElement("div");
+    gutter.className = "calendar-hour";
+    gutter.innerText = h + ":00";
+    grid.appendChild(gutter);
+
+    days.forEach(day=>{
+      const cell = document.createElement("div");
+      cell.className = "calendar-cell";
+      grid.appendChild(cell);
+    });
+  });
+
+  // finally place events
+  trip.items.filter(i=>i.time).forEach(it=>{
+    const dayIdx = days.indexOf(it.day.slice(0,3)); 
+    const hourIdx = parseInt(it.time.split(":")[0]) - 9;
+    if (dayIdx>=0 && hourIdx>=0 && hourIdx<hours.length) {
+      // calculate the grid position:
+      // column = 2 + dayIdx
+      // row = 2 + hourIdx
+      const ev = document.createElement("div");
+      ev.className = "calendar-event";
+      ev.innerText = `${it.name} (${it.time})`;
+      ev.style.gridColumnStart = 2 + dayIdx;
+      ev.style.gridRowStart    = 2 + hourIdx;
+      grid.appendChild(ev);
+    }
+  });
 }
 
 

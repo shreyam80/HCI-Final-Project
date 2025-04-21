@@ -149,34 +149,31 @@
     <!-- ITINERARY SCREEN -->
     <div id="itineraryPage" class="screen">
       <h2>My Itinerary</h2>
-
+    
       <!-- Trip Controls -->
-      <div style="margin-bottom: 10px;">
+      <div class="trip-controls" style="margin-bottom:12px;">
         <select id="tripSelect" onchange="changeTrip()"></select>
         <button onclick="createNewTrip()">+ New Trip</button>
         <button onclick="duplicateTrip()">Copy Trip</button>
       </div>
-
-      <!-- Unscheduled Items -->
+    
+      <!-- Unscheduled Bucket -->
       <h3>Unscheduled Experiences</h3>
       <div id="unscheduledList" class="card-list"></div>
-
+    
       <!-- Calendar View -->
       <h3>Scheduled Calendar</h3>
       <div id="calendarGrid" class="calendar-grid"></div>
-
+    
       <!-- Schedule Modal -->
       <div id="scheduleModal" class="modal hidden">
         <div class="modal-content">
           <h3>Schedule Activity</h3>
           <label>Day:</label>
           <select id="daySelect">
-            <option>Monday</option>
-            <option>Tuesday</option>
-            <option>Wednesday</option>
-            <option>Thursday</option>
-            <option>Friday</option>
-            <option>Saturday</option>
+            <option>Monday</option><option>Tuesday</option>
+            <option>Wednesday</option><option>Thursday</option>
+            <option>Friday</option><option>Saturday</option>
             <option>Sunday</option>
           </select>
           <label>Start Time:</label>
@@ -187,8 +184,8 @@
           <button onclick="closeModal()">Cancel</button>
         </div>
       </div>
-    </div>  <!-- ← **This** closes #itineraryPage! -->
-      
+    </div>
+    
     <!-- REVIEWS SCREEN -->
     <div id="reviewsPage" class="screen">
       <h2>Reviews</h2>
