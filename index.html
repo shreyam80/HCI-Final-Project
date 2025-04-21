@@ -1,5 +1,3 @@
-console.log("✅ Script is syncing with Git");
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -189,7 +187,7 @@ console.log("✅ Script is syncing with Git");
           <button onclick="closeModal()">Cancel</button>
         </div>
       </div>
-
+    </div>  <!-- ← **This** closes #itineraryPage! -->
       
     <!-- REVIEWS SCREEN -->
     <div id="reviewsPage" class="screen">
@@ -222,27 +220,28 @@ console.log("✅ Script is syncing with Git");
     <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="showScreen('homePage')">
-        <img src="https://img.icons8.com/ios-filled/24/000000/home.png" alt="Home" />
+        <img src="https://img.icons8.com/ios-filled/24/000000/home.png" />
         <span>Home</span>
       </div>
       <div class="nav-item" onclick="goToLikes()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/hearts.png" alt="My Likes" />
+        <img src="https://img.icons8.com/ios-filled/24/000000/hearts.png" />
         <span>My Likes</span>
       </div>
       <div class="nav-item" onclick="goToItinerary()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/calendar.png" alt="Itinerary" />
+        <img src="https://img.icons8.com/ios-filled/24/000000/calendar.png" />
         <span>Itinerary</span>
       </div>
       <div class="nav-item" onclick="goToReviews()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/comments.png" alt="Reviews" />
+        <img src="https://img.icons8.com/ios-filled/24/000000/comments.png" />
         <span>Reviews</span>
       </div>
       <div class="nav-item" onclick="goToProfile()">
-        <img class="profile-pic" src="profile_picture.png" alt="Profile Picture" />
+        <img class="profile-pic" src="profile_picture.png" />
         <span>Profile</span>
       </div>
     </div>
   </div>
+
   
   <script src="script.js"></script>
 </body>
