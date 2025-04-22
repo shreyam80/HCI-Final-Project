@@ -339,7 +339,7 @@ function renderItinerary() {
   const uns = trip.items.filter(i => !i.time);
   if (!uns.length) unsch.innerHTML = "<p>No unscheduled items.</p>";
   else uns.forEach(it => {
-    const c = createCard(it,false,true);
+    const c = createCard(it,true,true);
     unsch.append(c);
   });
 
@@ -391,7 +391,7 @@ function renderItinerary() {
   // place scheduled events
   trip.items.filter(i=>i.time).forEach(it=>{
     const dayIdx = days.indexOf(it.day);
-    const hourIdx = parseInt(it.time.split(":")[0]) - 9;
+    const hourIdx = parseInt(it.time.split(":")[0]);;
     if (dayIdx>=0 && hourIdx>=0 && hourIdx<hours.length) {
       const ev=document.createElement("div");
       ev.className="calendar-event";
