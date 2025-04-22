@@ -403,19 +403,18 @@ function renderItinerary() {
   // place scheduled events
   trip.items.filter(i=>i.time).forEach(it=>{
     const dayIdx = days.indexOf(it.day);
-    const hourIdx = parseInt(it.time.split(":")[0]);;
-    if (dayIdx>=0 && hourIdx>=0 && hourIdx<hours.length) {
-      const ev=document.createElement("div");
-      ev.className="calendar-event";
-      ev.innerText=it.name;
-      ev.draggable=true;
-      ev.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain", it.id));
-      ev.style.gridColumnStart = 2 + dayIdx;
-      ev.style.gridRowStart    = 2 + hourIdx;
-      // ↓ span rows according to duration ↓
-      ev.style.gridRowEnd      = `span ${it.duration || 1}`;
-
-      // ↓ prepend a drag‑handle to reschedule ↓
+    const hourIdx = parseInt(it.time.split(":")[0]);
+    if (dayIdx >= 0 && hourIdx >= 0 && hourIdx < hours.length) {
+      const cellIndex = (1 + hourIdx) * days.length + dayIdx; // skip header row
+      const cell = grid.querySelectorAll(".calendar-cell")[cellIndex];
+      if (!cell) return;
+  
+      const ev = document.createElement("div");
+      ev.className = "calendar-event";
+      ev.innerText = it.name;
+      ev.draggable = true;
+      ev.addEventListener("dragstart", e => e.dataTransfer.setData("text/plain", it.id));
+  
       const handle = document.createElement("span");
       handle.className = "drag-handle";
       handle.innerHTML = "☰";
@@ -424,22 +423,18 @@ function renderItinerary() {
       handle.addEventListener("dragstart", e =>
         e.dataTransfer.setData("text/plain", it.id)
       );
-
-      // ↓ enable vertical resizing ↓
-      ev.style.resize   = "vertical";
-      ev.style.overflow = "auto";
+  
+      ev.style.height = `${(it.duration || 1) * 41}px`; // 40px + 1px gap per hour
       ev.addEventListener("mouseup", () => {
-        // each cell is 40px high + 1px gap
-        const cellHeight = 40 + 1;
-        const totalH     = ev.offsetHeight;
-        const slots      = Math.max(1, Math.round(totalH / cellHeight));
-        it.duration      = slots;
-        ev.style.gridRowEnd = `span ${slots}`;
+        const slots = Math.max(1, Math.round(ev.offsetHeight / 41));
+        it.duration = slots;
+        ev.style.height = `${slots * 41}px`;
       });
-
-      grid.appendChild(ev);
+  
+      cell.appendChild(ev);
     }
   });
+  
 }
 
 function handleDrop(placeId, day, hour) {
@@ -476,6 +471,16 @@ function addToItinerary(place) {
 function confirmAddToItinerary() {
   const idx = parseInt(document.getElementById("tripSelectModal").value);
   trips[idx].items.push({...selectedPlace});
+
+  // Update the "Add to Itinerary" button text if it's still in the DOM
+  document.querySelectorAll(".itinerary-btn").forEach(btn => {
+    if (btn.closest(".card")?.querySelector(".card-info p")?.innerText === selectedPlace.name) {
+      btn.innerText = "Added";
+      btn.disabled = true;
+      btn.style.background = "#aaa"; // optional visual feedback
+    }
+  });
+
   closeItineraryModal();
   if (currentScreen==="itineraryEditPage" && idx===currentTripIndex) renderItinerary();
 }
