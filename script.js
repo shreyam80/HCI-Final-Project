@@ -1,4 +1,4 @@
-// script.js - FULL FILE with Schedule Support
+// script.js - FULL UPDATED FILE
 
 /***********************************************
  * Data Setup
@@ -17,24 +17,18 @@ let reviews = [
   { title: "Gourmet Bistro", text: "Delicious food and impeccable service." }
 ];
 
-
 /***********************************************
  * Trip + Itinerary State
  ***********************************************/
 let trips = [
-  { name: "Default Trip", items: [] }
+  { name: "Default Trip", destination: "", startDate: "", endDate: "", image: "", items: [] }
 ];
 let currentTripIndex = 0;
-let selectedPlace = null;  // for scheduling
-
+let selectedPlace = null;
 
 /***********************************************
  * Global State
  ***********************************************/
-// let currentScreen = "homePage";
-// let likedItems = [];
-// let itineraryItems = [];
-// let selectedPlace = null;
 let currentScreen = "homePage";
 let likedItems = [];
 
@@ -42,302 +36,186 @@ let likedItems = [];
  * Screen Management
  ***********************************************/
 function showScreen(screenId) {
-  const screens = ["homePage", "locationPage", "searchResultsPage", "cancunPage1", "cancunPage2", "cancunPage3", "cancunPage4", "likesPage", "itineraryPage", "reviewsPage", "profilePage"];
-  screens.forEach((id) => document.getElementById(id).classList.remove("active"));
-  document.getElementById("topNavLocation").classList.add("hidden");
-  document.getElementById("topNavCancun").classList.add("hidden");
-  document.getElementById("topNavLikes").classList.add("hidden");
-  document.getElementById("topNavResults").classList.add("hidden");
+  const screens = [
+    "homePage","locationPage","searchResultsPage",
+    "cancunPage1","cancunPage2","cancunPage3","cancunPage4",
+    "likesPage","reviewsPage","profilePage",
+    "itinerariesOverviewPage","createItineraryPage","itineraryEditPage"
+  ];
+  screens.forEach(id => document.getElementById(id).classList.remove("active"));
+  document.querySelectorAll(".top-nav").forEach(el => el.classList.add("hidden"));
+  const topMap = {
+    locationPage: "topNavLocation",
+    searchResultsPage: "topNavResults",
+    cancunPage1: "topNavCancun",
+    cancunPage2: "topNavCancun",
+    cancunPage3: "topNavCancun",
+    cancunPage4: "topNavCancun",
+    likesPage: "topNavLikes"
+  };
+  if (topMap[screenId]) document.getElementById(topMap[screenId]).classList.remove("hidden");
+  if (screenId === "homePage") document.getElementById("topNavHome").classList.remove("hidden");
   document.getElementById(screenId).classList.add("active");
-  if (screenId === "locationPage") document.getElementById("topNavLocation").classList.remove("hidden");
-  else if (screenId === "searchResultsPage") document.getElementById("topNavResults").classList.remove("hidden");
-  else if (screenId.startsWith("cancunPage")) document.getElementById("topNavCancun").classList.remove("hidden");
-  else if (screenId === "likesPage") document.getElementById("topNavLikes").classList.remove("hidden");
   currentScreen = screenId;
 }
 
+/***********************************************
+ * Home & Favorites
+ ***********************************************/
 function goHome() {
   showScreen("homePage");
   populateFavorites();
 }
 
 function populateFavorites() {
-  const favoritesList = document.getElementById("favoritesList");
-  if (!favoritesList) return;
-  favoritesList.innerHTML = "";
-  const favs = samplePlacesAll.filter((place) => likedItems.includes(place.id));
-  if (favs.length === 0) favoritesList.innerHTML = "<p>No favorites yet.</p>";
-  else favs.forEach((place) => favoritesList.appendChild(createCard(place, true)));
+  const favsEl = document.getElementById("favoritesList");
+  if (!favsEl) return;
+  favsEl.innerHTML = "";
+  const favs = samplePlacesAll.filter(p => likedItems.includes(p.id));
+  if (!favs.length) favsEl.innerHTML = "<p>No favorites yet.</p>";
+  else favs.forEach(p => favsEl.appendChild(createCard(p, true)));
 }
 
 /***********************************************
- * Location Screen Functions
+ * Location Screen
  ***********************************************/
 function cancelSearch() {
   showScreen("homePage");
 }
 
-const locationInput = document.getElementById("locationInput");
-if (locationInput) {
-  locationInput.addEventListener("keyup", function (e) {
-    if (e.key === "Enter") {
-      const query = e.target.value.trim().toLowerCase();
-      if (query === "cancun") goToCancunPage(1);
-      else alert("Please search for 'Cancun' to see sample data!");
-    }
-  });
-}
+document.getElementById("locationInput")?.addEventListener("keyup", e => {
+  if (e.key === "Enter") {
+    const q = e.target.value.trim().toLowerCase();
+    if (q === "cancun") goToCancunPage(1);
+    else alert("Please search for 'Cancun'!");
+  }
+});
 
 /***********************************************
- * Cancun Pages Functions
+ * Cancun Pages
  ***********************************************/
-function goToCancunPage(pageNum) {
+function goToCancunPage(n) {
   populateCancunPages();
-  showScreen(`cancunPage${pageNum}`);
+  showScreen(`cancunPage${n}`);
 }
 
 function populateCancunPages() {
-  const listAll = document.getElementById("cancunList1");
-  listAll.innerHTML = "";
-  samplePlacesAll.forEach(place => listAll.appendChild(createCard(place, true)));
-
-  const listFav = document.getElementById("cancunList2");
-  listFav.innerHTML = "";
-  const favPlaces = samplePlacesAll.filter(p => likedItems.includes(p.id));
-  listFav.innerHTML = favPlaces.length === 0 ? "<p>You haven't liked anything yet.</p>" : "";
-  favPlaces.forEach(place => listFav.appendChild(createCard(place, true)));
-
-  const listRest = document.getElementById("cancunList3");
-  listRest.innerHTML = "";
-  const restPlaces = samplePlacesAll.filter(p => p.category === "Restaurants");
-  restPlaces.forEach(place => listRest.appendChild(createCard(place, true)));
-
-  const listShops = document.getElementById("cancunList4");
-  listShops.innerHTML = "";
-  const shopPlaces = samplePlacesAll.filter(p => p.category === "Shops");
-  shopPlaces.forEach(place => listShops.appendChild(createCard(place, true)));
+  // All
+  const a1 = document.getElementById("cancunList1");
+  a1.innerHTML = "";
+  samplePlacesAll.forEach(p => a1.appendChild(createCard(p, true)));
+  // Fav
+  const a2 = document.getElementById("cancunList2");
+  a2.innerHTML = "";
+  const favs = samplePlacesAll.filter(p => likedItems.includes(p.id));
+  a2.innerHTML = !favs.length ? "<p>No likes yet.</p>" : "";
+  favs.forEach(p => a2.appendChild(createCard(p, true)));
+  // Restaurants
+  const a3 = document.getElementById("cancunList3");
+  a3.innerHTML = "";
+  samplePlacesAll.filter(p => p.category==="Restaurants")
+    .forEach(p => a3.appendChild(createCard(p, true)));
+  // Shops
+  const a4 = document.getElementById("cancunList4");
+  a4.innerHTML = "";
+  samplePlacesAll.filter(p => p.category==="Shops")
+    .forEach(p => a4.appendChild(createCard(p, true)));
 }
 
 /***********************************************
  * Card Creation
  ***********************************************/
-function createCard(place, showItineraryBtn = true, itineraryView = false) {
+function createCard(place, showItinBtn = false, itineraryView = false) {
   const card = document.createElement("div");
   card.className = "card";
 
   const img = document.createElement("img");
-  img.src = place.image;
+  img.src = place.image || "https://via.placeholder.com/60";
+  card.appendChild(img);
 
-  const infoDiv = document.createElement("div");
-  infoDiv.className = "card-info";
-
-  const nameP = document.createElement("p");
-  nameP.innerText = place.name;
-
-  const catP = document.createElement("p");
-  catP.innerText = place.category;
-
-  infoDiv.appendChild(nameP);
-  infoDiv.appendChild(catP);
+  const info = document.createElement("div");
+  info.className = "card-info";
+  const name = document.createElement("p");
+  name.innerText = place.name;
+  const cat = document.createElement("p");
+  cat.innerText = place.category;
+  info.append(name, cat);
+  card.appendChild(info);
 
   const likeBtn = document.createElement("button");
   likeBtn.className = "like-btn";
   likeBtn.innerText = likedItems.includes(place.id) ? "♥" : "♡";
   likeBtn.onclick = () => toggleLike(place.id, likeBtn);
-
-  card.appendChild(img);
-  card.appendChild(infoDiv);
   card.appendChild(likeBtn);
 
-  if (showItineraryBtn) {
+  if (showItinBtn) {
     if (itineraryView) {
-      const removeBtn = document.createElement("button");
-      removeBtn.className = "itinerary-btn remove-btn";
-      removeBtn.innerText = "Remove";
-      removeBtn.onclick = () => removeFromItinerary(place);
-      card.appendChild(removeBtn);
+      // ↓ add a drag‑handle instead of whole card ↓
+    const handle = document.createElement("span");
+    handle.className = "drag-handle";
+    handle.innerHTML = "☰";
+    card.appendChild(handle);
+    handle.draggable = true;
+    handle.addEventListener("dragstart", e => 
+      e.dataTransfer.setData("text/plain", place.id)
+    );
+      const rm = document.createElement("button");
+      rm.className = "itinerary-btn remove-btn";
+      rm.innerText = "Remove";
+      rm.onclick = () => {
+        trips[currentTripIndex].items =
+          trips[currentTripIndex].items.filter(i => i.id !== place.id);
+        renderItinerary();
+      };
+      card.appendChild(rm);
     } else {
-      const itineraryBtn = document.createElement("button");
-      itineraryBtn.className = "itinerary-btn";
-      itineraryBtn.innerText = "Add to Itinerary";
-      itineraryBtn.onclick = () => addToItinerary(place);
-      card.appendChild(itineraryBtn);
+      const itinBtn = document.createElement("button");
+      itinBtn.className = "itinerary-btn";
+      itinBtn.innerText = "Add to Itinerary";
+      itinBtn.onclick = () => addToItinerary(place);
+      card.appendChild(itinBtn);
     }
   }
-
   return card;
 }
 
 /***********************************************
- * Likes Functions
+ * Like Toggling
  ***********************************************/
-function toggleLike(placeId, btnEl) {
-  if (likedItems.includes(placeId)) {
-    likedItems = likedItems.filter(id => id !== placeId);
-    btnEl.innerText = "♡";
+function toggleLike(id, btn) {
+  if (likedItems.includes(id)) {
+    likedItems = likedItems.filter(x => x!==id);
+    btn.innerText = "♡";
   } else {
-    likedItems.push(placeId);
-    btnEl.innerText = "♥";
+    likedItems.push(id);
+    btn.innerText = "♥";
   }
   if (currentScreen === "cancunPage2") populateCancunPages();
   if (currentScreen === "likesPage") renderLikesPage();
 }
 
 /***********************************************
- * NEW: Trip Management
+ * Likes Screen
  ***********************************************/
-function populateTripSelect() {
-  const sel = document.getElementById("tripSelect");
-  sel.innerHTML = "";
-  trips.forEach((t,i) => {
-    const opt = document.createElement("option");
-    opt.value = i;
-    opt.innerText = t.name;
-    sel.appendChild(opt);
-  });
-  sel.value = currentTripIndex;
+function goToLikes() {
+  showScreen("likesPage");
+  renderLikesPage();
 }
 
-function changeTrip() {
-  currentTripIndex = parseInt(document.getElementById("tripSelect").value);
-  renderItinerary();
-}
-
-function createNewTrip() {
-  const name = prompt("Enter a name for your new trip:");
-  if (!name) return;
-  trips.push({ name, items: [] });
-  currentTripIndex = trips.length - 1;
-  populateTripSelect();
-  renderItinerary();
-}
-
-function duplicateTrip() {
-  const orig = trips[currentTripIndex];
-  const copyName = orig.name + " Copy";
-  const newItems = orig.items.map(it => ({ ...it }));
-  trips.push({ name: copyName, items: newItems });
-  currentTripIndex = trips.length - 1;
-  populateTripSelect();
-  renderItinerary();
-}
-
-/***********************************************
- * Itinerary Functions (upgraded)
- ***********************************************/
-function addToItinerary(place) {
-  selectedPlace = place;
-  document.getElementById("scheduleModal").classList.remove("hidden");
-}
-
-function closeModal() {
-  document.getElementById("scheduleModal").classList.add("hidden");
-  selectedPlace = null;
-}
-
-function confirmSchedule() {
-  const day  = document.getElementById("daySelect").value;
-  const time = document.getElementById("timeInput").value;
-  const dur  = document.getElementById("durationInput").value;
-  if (!day||!time) {
-    alert("Please choose both a day and start time.");
+function renderLikesPage() {
+  const el = document.getElementById("likesList");
+  el.innerHTML = "";
+  if (!likedItems.length) {
+    el.innerHTML = "<p>No likes yet.</p>";
     return;
   }
-  // push into the current trip's items
-  trips[currentTripIndex].items.push({
-    ...selectedPlace,
-    day, time, duration: parseFloat(dur)
-  });
-  closeModal();
-  renderItinerary();
+  samplePlacesAll
+    .filter(p => likedItems.includes(p.id))
+    .forEach(p => el.appendChild(createCard(p, true)));
 }
-
-function removeFromItinerary(item) {
-  let arr = trips[currentTripIndex].items;
-  trips[currentTripIndex].items = arr.filter(i => i.id!==item.id);
-  renderItinerary();
-}
-
-function goToItinerary() {
-  showScreen("itineraryPage");
-  populateTripSelect();
-  renderItinerary();
-}
-
-function renderItinerary() {
-  const grid = document.getElementById("calendarGrid");
-  const unsch = document.getElementById("unscheduledList");
-  grid.innerHTML = "";
-  unsch.innerHTML = "";
-
-  const trip = trips[currentTripIndex];
-  document.querySelector("#itineraryPage h2").innerText = trip.name;
-
-  // 1) Unscheduled
-  const uns = trip.items.filter(i=>!i.time);
-  if (uns.length===0) {
-    unsch.innerHTML = "<p>No unscheduled items.</p>";
-  } else {
-    uns.forEach(it => {
-      const card = createCard(it, true, true);
-      unsch.appendChild(card);
-    });
-  }
-
-  // 2) Calendar grid
-  // hours 9–20 (you can adjust)
-  const hours = Array.from({length:12},(_,i)=>9+i);
-  // days Mon–Sun
-  const days  = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-
-  // set dynamic CSS columns
-  grid.style.gridTemplateColumns = `50px repeat(${days.length},1fr)`;
-
-  // first row: blank cell + day headers
-  grid.appendChild(document.createElement("div")); // corner blank
-  days.forEach(d => {
-    const hd = document.createElement("div");
-    hd.className = "calendar-hour";
-    hd.innerText = d;
-    grid.appendChild(hd);
-  });
-
-  // then for each hour: first column hour label, then one cell per day
-  hours.forEach(h=>{
-    // hour gutter
-    const gutter = document.createElement("div");
-    gutter.className = "calendar-hour";
-    gutter.innerText = h + ":00";
-    grid.appendChild(gutter);
-
-    days.forEach(day=>{
-      const cell = document.createElement("div");
-      cell.className = "calendar-cell";
-      grid.appendChild(cell);
-    });
-  });
-
-  // finally place events
-  trip.items.filter(i=>i.time).forEach(it=>{
-    const dayIdx = days.indexOf(it.day.slice(0,3)); 
-    const hourIdx = parseInt(it.time.split(":")[0]) - 9;
-    if (dayIdx>=0 && hourIdx>=0 && hourIdx<hours.length) {
-      // calculate the grid position:
-      // column = 2 + dayIdx
-      // row = 2 + hourIdx
-      const ev = document.createElement("div");
-      ev.className = "calendar-event";
-      ev.innerText = `${it.name} (${it.time})`;
-      ev.style.gridColumnStart = 2 + dayIdx;
-      ev.style.gridRowStart    = 2 + hourIdx;
-      grid.appendChild(ev);
-    }
-  });
-}
-
 
 /***********************************************
- * Review Functions
+ * Reviews
  ***********************************************/
 function goToReviews() {
   showScreen("reviewsPage");
@@ -345,59 +223,33 @@ function goToReviews() {
 }
 
 function renderReviews() {
-  const reviewList = document.getElementById("reviewList");
-  reviewList.innerHTML = "";
-  reviews.forEach((review, index) => {
-    const reviewCard = document.createElement("div");
-    reviewCard.className = "review-card";
-
-    const icon = document.createElement("img");
-    icon.className = "review-icon";
-    icon.src = "https://img.icons8.com/ios-filled/50/000000/museum.png";
-    icon.alt = "Review icon";
-
-    const infoDiv = document.createElement("div");
-    infoDiv.className = "review-info";
-
-    const titleEl = document.createElement("h3");
-    titleEl.innerText = review.title;
-
-    const textEl = document.createElement("p");
-    textEl.innerText = review.text;
-
-    infoDiv.appendChild(titleEl);
-    infoDiv.appendChild(textEl);
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.className = "delete-review-btn";
-    deleteBtn.innerText = "Delete";
-    deleteBtn.onclick = () => deleteReview(index);
-
-    reviewCard.appendChild(icon);
-    reviewCard.appendChild(infoDiv);
-    reviewCard.appendChild(deleteBtn);
-    reviewList.appendChild(reviewCard);
+  const list = document.getElementById("reviewList");
+  list.innerHTML = "";
+  reviews.forEach((r,i) => {
+    const div = document.createElement("div");
+    div.className = "review-card";
+    const img = document.createElement("img");
+    img.className = "review-icon";
+    img.src = "https://img.icons8.com/ios-filled/50/000000/museum.png";
+    const info = document.createElement("div");
+    info.className = "review-info";
+    const t = document.createElement("h3"); t.innerText = r.title;
+    const txt = document.createElement("p"); txt.innerText = r.text;
+    info.append(t, txt);
+    const del = document.createElement("button");
+    del.className = "delete-review-btn";
+    del.innerText = "Delete";
+    del.onclick = () => { reviews.splice(i,1); renderReviews(); };
+    div.append(img, info, del);
+    list.append(div);
   });
 }
 
-function deleteReview(index) {
-  reviews.splice(index, 1);
-  renderReviews();
-}
-
 function addReview() {
-  const titleInput = document.getElementById("reviewTitle");
-  const textInput = document.getElementById("reviewText");
-  const title = titleInput.value.trim();
-  const text = textInput.value.trim();
-  if (!title || !text) {
-    alert("Please enter both a title and review text.");
-    return;
-  }
-  reviews.push({ title, text });
-  alert("Review added!");
-  titleInput.value = "";
-  textInput.value = "";
+  const t = document.getElementById("reviewTitle").value.trim();
+  const txt = document.getElementById("reviewText").value.trim();
+  if (!t||!txt) { alert("Please enter both title and text."); return; }
+  reviews.push({ title:t, text:txt });
   renderReviews();
 }
 
@@ -409,23 +261,217 @@ function goToProfile() {
 }
 
 /***********************************************
- * Likes
+ * Itineraries Overview
  ***********************************************/
-function goToLikes() {
-  showScreen("likesPage");
-  renderLikesPage();
+function goToOverview() {
+  showScreen("itinerariesOverviewPage");
+  populateOverview();
 }
 
-function renderLikesPage() {
-  const likesList = document.getElementById("likesList");
-  likesList.innerHTML = "";
-  if (likedItems.length === 0) {
-    likesList.innerHTML = "<p>You haven't liked anything yet.</p>";
-    return;
+function populateOverview() {
+  const up = document.getElementById("upcomingItinerariesList");
+  const past = document.getElementById("pastItinerariesList");
+  up.innerHTML = ""; past.innerHTML = "";
+  const today = new Date();
+  trips.forEach((trip,i) => {
+    const card = document.createElement("div");
+    card.className = "itinerary-overview-card";
+    const img = document.createElement("img");
+    img.src = trip.image || "https://via.placeholder.com/80x60?text=Trip";
+    const h4 = document.createElement("h4");
+    h4.innerText = trip.name;
+    const p = document.createElement("p");
+    p.innerText = trip.startDate && trip.endDate 
+      ? `${trip.startDate} – ${trip.endDate}` : "";
+    card.append(img,h4,p);
+    card.onclick = () => openEditItinerary(i);
+    const e = trip.endDate ? new Date(trip.endDate) : null;
+    if (e && e < today) past.append(card);
+    else up.append(card);
+  });
+}
+
+/***********************************************
+ * Create Itinerary
+ ***********************************************/
+function goToCreateItinerary() {
+  showScreen("createItineraryPage");
+}
+
+function createItinerary() {
+  const name = document.getElementById("newItineraryName").value.trim();
+  const dest = document.getElementById("newItineraryDestination").value.trim();
+  const start = document.getElementById("newItineraryStart").value;
+  const end = document.getElementById("newItineraryEnd").value;
+  const img  = document.getElementById("newItineraryImage").value.trim();
+  if (!name||!dest||!start||!end) {
+    alert("Fill in all fields."); return;
   }
-  const likedPlaces = samplePlacesAll.filter(p => likedItems.includes(p.id));
-  likedPlaces.forEach(place => likesList.appendChild(createCard(place, true)));
+  trips.push({
+    name, destination:dest,
+    startDate:start, endDate:end,
+    image: img, items: []
+  });
+  openEditItinerary(trips.length-1);
 }
 
-// Initial screen
+function cancelCreateItinerary() {
+  goToOverview();
+}
+
+/***********************************************
+ * Edit Itinerary & Drag/Drop
+ ***********************************************/
+function openEditItinerary(idx) {
+  currentTripIndex = idx;
+  document.getElementById("editItineraryTitle").innerText = trips[idx].name;
+  showScreen("itineraryEditPage");
+  renderItinerary();
+}
+
+function renderItinerary() {
+  const grid = document.getElementById("calendarGrid");
+  const unsch = document.getElementById("unscheduledList");
+  grid.innerHTML = ""; unsch.innerHTML = "";
+  const trip = trips[currentTripIndex];
+
+  // Unscheduled
+  const uns = trip.items.filter(i => !i.time);
+  if (!uns.length) unsch.innerHTML = "<p>No unscheduled items.</p>";
+  else uns.forEach(it => {
+    const c = createCard(it,false,true);
+    unsch.append(c);
+  });
+
+  // Calendar
+  // 1) show all 24 hours
+  const hours = Array.from({length:24},(_,i) => i);
+
+  // 2) compute only the days between this trip's start & end dates
+  const start = new Date(trips[currentTripIndex].startDate);
+  const end   = new Date(trips[currentTripIndex].endDate);
+  const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const days = [];
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+    days.push(dayNames[d.getDay()]);
+  }
+
+  // 3) make the grid exactly N columns (1 gutter + your #days)
+  grid.style.gridTemplateColumns = `50px repeat(${days.length},1fr)`;
+
+  // Header row
+  grid.appendChild(document.createElement("div"));
+  days.forEach(d=>{
+    const hd=document.createElement("div");
+    hd.className="calendar-hour"; hd.innerText=d;
+    grid.appendChild(hd);
+  });
+
+  // hour rows + droppable cells
+  hours.forEach(h=>{
+    const gutter=document.createElement("div");
+    gutter.className="calendar-hour";
+    gutter.innerText = h.toString().padStart(2,"0") + ":00";
+    grid.appendChild(gutter);
+
+    days.forEach(day=>{
+      const cell=document.createElement("div");
+      cell.className="calendar-cell";
+      cell.dataset.day = day;
+      cell.dataset.hour = h;
+      cell.addEventListener("dragover",e=>e.preventDefault());
+      cell.addEventListener("drop",e=>{
+        const pid=e.dataTransfer.getData("text/plain");
+        handleDrop(pid, day, h);
+      });
+      grid.appendChild(cell);
+    });
+  });
+
+  // place scheduled events
+  trip.items.filter(i=>i.time).forEach(it=>{
+    const dayIdx = days.indexOf(it.day);
+    const hourIdx = parseInt(it.time.split(":")[0]) - 9;
+    if (dayIdx>=0 && hourIdx>=0 && hourIdx<hours.length) {
+      const ev=document.createElement("div");
+      ev.className="calendar-event";
+      ev.innerText=it.name;
+      ev.draggable=true;
+      ev.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain", it.id));
+      ev.style.gridColumnStart = 2 + dayIdx;
+      ev.style.gridRowStart    = 2 + hourIdx;
+      // ↓ span rows according to duration ↓
+      ev.style.gridRowEnd      = `span ${it.duration || 1}`;
+
+      // ↓ prepend a drag‑handle to reschedule ↓
+      const handle = document.createElement("span");
+      handle.className = "drag-handle";
+      handle.innerHTML = "☰";
+      ev.prepend(handle);
+      handle.draggable = true;
+      handle.addEventListener("dragstart", e =>
+        e.dataTransfer.setData("text/plain", it.id)
+      );
+
+      // ↓ enable vertical resizing ↓
+      ev.style.resize   = "vertical";
+      ev.style.overflow = "auto";
+      ev.addEventListener("mouseup", () => {
+        // each cell is 40px high + 1px gap
+        const cellHeight = 40 + 1;
+        const totalH     = ev.offsetHeight;
+        const slots      = Math.max(1, Math.round(totalH / cellHeight));
+        it.duration      = slots;
+        ev.style.gridRowEnd = `span ${slots}`;
+      });
+
+      grid.appendChild(ev);
+    }
+  });
+}
+
+function handleDrop(placeId, day, hour) {
+  const arr = trips[currentTripIndex].items;
+  const uns = arr.find(i=>i.id===placeId && !i.time);
+  if (uns) {
+    uns.day = day;
+    uns.time = `${hour}:00`;
+  } else {
+    const sch=arr.find(i=>i.id===placeId && i.time);
+    if (sch) {
+      sch.day = day;
+      sch.time = `${hour}:00`;
+    }
+  }
+  renderItinerary();
+}
+
+/***********************************************
+ * Add to Itinerary Modal
+ ***********************************************/
+function addToItinerary(place) {
+  selectedPlace = place;
+  const sel = document.getElementById("tripSelectModal");
+  sel.innerHTML="";
+  trips.forEach((t,i)=>{
+    const o=document.createElement("option");
+    o.value=i; o.innerText=t.name;
+    sel.append(o);
+  });
+  document.getElementById("itinerarySelectModal").classList.remove("hidden");
+}
+
+function confirmAddToItinerary() {
+  const idx = parseInt(document.getElementById("tripSelectModal").value);
+  trips[idx].items.push({...selectedPlace});
+  closeItineraryModal();
+  if (currentScreen==="itineraryEditPage" && idx===currentTripIndex) renderItinerary();
+}
+
+function closeItineraryModal() {
+  document.getElementById("itinerarySelectModal").classList.add("hidden");
+  selectedPlace = null;
+}
+
+// Initial call
 showScreen("homePage");

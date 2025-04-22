@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Travel Express</title>
-  <!-- Google Fonts (adjust if needed) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -40,16 +40,10 @@
       <span class="title-center">Search Results</span>
     </div>
 
-    <!-- Main Content Screens -->
     <!-- HOME SCREEN -->
     <div id="homePage" class="screen active">
-      <!-- Title -->
       <h1 class="home-title">Travel Express</h1>
-      <!-- Big Button for Search -->
-      <button class="big-btn" onclick="showScreen('locationPage')">
-        Search Location
-      </button>
-      <!-- Trending Section -->
+      <button class="big-btn" onclick="showScreen('locationPage')">Search Location</button>
       <h2 class="home-section-title">Trending</h2>
       <div class="trending-row">
         <div class="trending-card">
@@ -63,19 +57,14 @@
           <p>Excursion | 1.2 mi | 4.8 Stars</p>
         </div>
       </div>
-      <!-- Reviews Section (Home preview) -->
       <h2 class="home-section-title">Reviews</h2>
       <div class="review-card">
-        <img
-          class="review-icon"
-          src="https://img.icons8.com/ios-filled/50/000000/museum.png"
-          alt="Museum icon"
-        />
+        <img class="review-icon" src="https://img.icons8.com/ios-filled/50/000000/museum.png" alt="Museum icon"/>
         <div class="review-info">
           <h3>City Museum</h3>
           <p>"A must-visit! Very walkable and fun exhibits."</p>
         </div>
-        <button class="add-itinerary-btn">+ Add to Itinerary</button>
+        <button class="add-itinerary-btn" onclick="addToItinerary({id:'cafe',name:'City Museum',category:'All',image:''})">+ Add to Itinerary</button>
       </div>
     </div>
 
@@ -85,19 +74,16 @@
         <input type="text" id="locationInput" placeholder="Search location..." />
         <button class="cancel-btn" onclick="cancelSearch()">Cancel</button>
       </div>
-      <div class="info-text">
-        <p>Type "Cancun" and press Enter.</p>
-      </div>
+      <div class="info-text"><p>Type "Cancun" and press Enter.</p></div>
     </div>
 
-    <!-- SEARCH RESULTS SCREEN (Optional) -->
+    <!-- SEARCH RESULTS SCREEN -->
     <div id="searchResultsPage" class="screen">
       <div class="results-header">Search Results</div>
       <div class="card-list" id="searchResultsList"></div>
     </div>
 
-    <!-- CANCUN SCREENS -->
-    <!-- Cancun Screen - Page 1 (All) -->
+    <!-- CANCUN PAGES -->
     <div id="cancunPage1" class="screen">
       <div class="tab-bar">
         <span class="tab active" onclick="goToCancunPage(1)">All</span>
@@ -107,8 +93,6 @@
       </div>
       <div class="card-list" id="cancunList1"></div>
     </div>
-
-    <!-- Cancun Screen - Page 2 (Favorites) -->
     <div id="cancunPage2" class="screen">
       <div class="tab-bar">
         <span class="tab" onclick="goToCancunPage(1)">All</span>
@@ -118,8 +102,6 @@
       </div>
       <div class="card-list" id="cancunList2"></div>
     </div>
-
-    <!-- Cancun Screen - Page 3 (Restaurants) -->
     <div id="cancunPage3" class="screen">
       <div class="tab-bar">
         <span class="tab" onclick="goToCancunPage(1)">All</span>
@@ -129,8 +111,6 @@
       </div>
       <div class="card-list" id="cancunList3"></div>
     </div>
-
-    <!-- Cancun Screen - Page 4 (Shops) -->
     <div id="cancunPage4" class="screen">
       <div class="tab-bar">
         <span class="tab" onclick="goToCancunPage(1)">All</span>
@@ -146,56 +126,13 @@
       <div class="card-list" id="likesList"></div>
     </div>
 
-    <!-- ITINERARY SCREEN -->
-    <div id="itineraryPage" class="screen">
-      <h2>My Itinerary</h2>
-    
-      <!-- Trip Controls -->
-      <div class="trip-controls" style="margin-bottom:12px;">
-        <select id="tripSelect" onchange="changeTrip()"></select>
-        <button onclick="createNewTrip()">+ New Trip</button>
-        <button onclick="duplicateTrip()">Copy Trip</button>
-      </div>
-    
-      <!-- Unscheduled Bucket -->
-      <h3>Unscheduled Experiences</h3>
-      <div id="unscheduledList" class="card-list"></div>
-    
-      <!-- Calendar View -->
-      <h3>Scheduled Calendar</h3>
-      <div id="calendarGrid" class="calendar-grid"></div>
-    
-      <!-- Schedule Modal -->
-      <div id="scheduleModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Schedule Activity</h3>
-          <label>Day:</label>
-          <select id="daySelect">
-            <option>Monday</option><option>Tuesday</option>
-            <option>Wednesday</option><option>Thursday</option>
-            <option>Friday</option><option>Saturday</option>
-            <option>Sunday</option>
-          </select>
-          <label>Start Time:</label>
-          <input type="time" id="timeInput" />
-          <label>Duration (hrs):</label>
-          <input type="number" id="durationInput" min="1" max="8" value="1" />
-          <button onclick="confirmSchedule()">Confirm</button>
-          <button onclick="closeModal()">Cancel</button>
-        </div>
-      </div>
-    </div>
-    
     <!-- REVIEWS SCREEN -->
     <div id="reviewsPage" class="screen">
       <h2>Reviews</h2>
-      <div class="review-list" id="reviewList">
-        <!-- Reviews will be rendered here -->
-      </div>
-      <!-- Form to add a review -->
+      <div class="review-list" id="reviewList"></div>
       <div class="add-review-form">
         <h3>Add a Review</h3>
-        <input type="text" id="reviewTitle" placeholder="Review Title" />
+        <input type="text" id="reviewTitle" placeholder="Review Title"/>
         <textarea id="reviewText" placeholder="Write your review here..."></textarea>
         <button class="submit-review-btn" onclick="addReview()">Submit Review</button>
       </div>
@@ -203,43 +140,84 @@
 
     <!-- PROFILE SCREEN -->
     <div id="profilePage" class="screen">
-        <h2>My Profile</h2>
-        <div class="profile-container">
+      <h2>My Profile</h2>
+      <div class="profile-container">
         <img class="profile-pic" src="profile_picture.png" alt="Profile Picture" />
         <h3 class="profile-name">John Doe</h3>
         <p class="profile-email">johndoe@example.com</p>
-        <p class="profile-bio">
-            I am a food enthusiast! Come along on my journey to explore more places, food, and places!
-        </p>
-        </div>
+        <p class="profile-bio">I am a food enthusiast! Come along on my journey to explore more places, food, and places!</p>
+      </div>
+    </div>
+
+    <!-- ITINERARIES OVERVIEW -->
+    <div id="itinerariesOverviewPage" class="screen">
+      <h2>Itineraries</h2>
+      <h3>Upcoming</h3>
+      <div id="upcomingItinerariesList" class="itinerary-overview-list"></div>
+      <h3>Past</h3>
+      <div id="pastItinerariesList" class="itinerary-overview-list"></div>
+      <div class="itinerary-overview-card add-card" onclick="goToCreateItinerary()">
+        <span class="plus">+</span><span>Add Itinerary</span>
+      </div>
+    </div>
+
+    <!-- CREATE ITINERARY -->
+    <div id="createItineraryPage" class="screen">
+      <h2>Create New Itinerary</h2>
+      <label>Name:</label>
+      <input id="newItineraryName" type="text" placeholder="Trip name"/>
+      <label>Destination:</label>
+      <input id="newItineraryDestination" type="text" placeholder="Location"/>
+      <label>Start Date:</label>
+      <input id="newItineraryStart" type="date"/>
+      <label>End Date:</label>
+      <input id="newItineraryEnd" type="date"/>
+      <label>Image URL (optional):</label>
+      <input id="newItineraryImage" type="text" placeholder="http://..."/>
+      <button class="big-btn" onclick="createItinerary()">Create</button>
+      <button class="big-btn" onclick="cancelCreateItinerary()">Cancel</button>
+    </div>
+
+    <!-- ITINERARY EDIT -->
+    <div id="itineraryEditPage" class="screen">
+      <button class="back-btn" onclick="goToOverview()">&larr; Back</button>
+      <h2 id="editItineraryTitle">Itinerary</h2>
+      <h3>Unscheduled Experiences</h3>
+      <div id="unscheduledList" class="card-list"></div>
+      <h3>Scheduled Calendar</h3>
+      <div id="calendarGrid" class="calendar-grid"></div>
+    </div>
+
+    <!-- ADD TO ITINERARY MODAL -->
+    <div id="itinerarySelectModal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Add to Itinerary</h3>
+        <select id="tripSelectModal"></select>
+        <button onclick="confirmAddToItinerary()">Add</button>
+        <button onclick="closeItineraryModal()">Cancel</button>
+      </div>
     </div>
 
     <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="showScreen('homePage')">
-        <img src="https://img.icons8.com/ios-filled/24/000000/home.png" />
-        <span>Home</span>
+        <img src="https://img.icons8.com/ios-filled/24/000000/home.png"/><span>Home</span>
       </div>
       <div class="nav-item" onclick="goToLikes()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/hearts.png" />
-        <span>My Likes</span>
+        <img src="https://img.icons8.com/ios-filled/24/000000/hearts.png"/><span>My Likes</span>
       </div>
-      <div class="nav-item" onclick="goToItinerary()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/calendar.png" />
-        <span>Itinerary</span>
+      <div class="nav-item" onclick="goToOverview()">
+        <img src="https://img.icons8.com/ios-filled/24/000000/calendar.png"/><span>Itineraries</span>
       </div>
       <div class="nav-item" onclick="goToReviews()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/comments.png" />
-        <span>Reviews</span>
+        <img src="https://img.icons8.com/ios-filled/24/000000/comments.png"/><span>Reviews</span>
       </div>
       <div class="nav-item" onclick="goToProfile()">
-        <img class="profile-pic" src="profile_picture.png" />
-        <span>Profile</span>
+        <img class="profile-pic" src="profile_picture.png"/><span>Profile</span>
       </div>
     </div>
   </div>
 
-  
   <script src="script.js"></script>
 </body>
 </html>

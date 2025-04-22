@@ -1,560 +1,134 @@
-/***********************************************
- * Global Styles & Layout
- ***********************************************/
- * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  html, body {
-    font-family: 'Inter', sans-serif;
-  }
-  body {
-    background: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  .phone {
-    width: 375px;
-    height: 812px;
-    background: #fff;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /***********************************************
-   * Status Bar
-   ***********************************************/
-  .status-bar {
-    height: 24px;
-    background: #f8f8f8;
-    border-bottom: 1px solid #ddd;
-    padding: 0 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #666;
-  }
-  .status-icons {
-    display: flex;
-    gap: 8px;
-  }
-  
-  /***********************************************
-   * Top Navigation Bars
-   ***********************************************/
-  .top-nav {
-    height: 44px;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .top-nav .title-center {
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .top-nav .left-icon,
-  .top-nav .right-icon {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    cursor: pointer;
-    color: #007aff;
-  }
-  .top-nav .left-icon {
-    left: 0;
-  }
-  .top-nav .right-icon {
-    right: 0;
-  }
-  .hidden {
-    display: none !important;
-  }
-  
-  /***********************************************
-   * Screens
-   ***********************************************/
-  .screen {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: none;
-  }
-  .screen.active {
-    display: block;
-  }
-  
-  /***********************************************
-   * Home Screen
-   ***********************************************/
-  #homePage h1 {
-    text-align: center;
-    margin: 60px 0 30px;
-    font-size: 24px;
-  }
-  .big-btn {
-    display: block;
-    margin: 0 auto;
-    background: #007aff;
-    color: #fff;
-    padding: 14px 30px;
-    border: none;
-    border-radius: 24px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    transition: background 0.2s;
-  }
-  .big-btn:hover {
-    background: #0063cc;
-  }
-  
-  /***********************************************
-   * Home Page Additional Styling 
-   ***********************************************/
-  
-  /***********************************************
-   * Trending & Reviews Sections (Home)
-   ***********************************************/
-  .home-section-title {
-    font-size: 18px;
-    margin: 16px 0 8px;
-  }
-  .trending-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .trending-card {
-    flex: 1;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  }
-  .trending-card h3 {
-    margin: 4px 0;
-    font-size: 14px;
-  }
-  .trending-card p {
-    font-size: 12px;
-    color: #666;
-  }
-  .heart-icon {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    font-size: 14px;
-    color: #ff4444;
-  }
-  .review-card {
-    background: #cfeaff;
-    border-radius: 10px;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .review-icon {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-  }
-  .review-info h3 {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-  .review-info p {
-    font-size: 12px;
-    color: #333;
-  }
-  .add-itinerary-btn {
-    margin-left: auto;
-    background: #007aff;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .add-itinerary-btn:hover {
-    background: #005bbb;
-  }
-  
-  /***********************************************
-   * Location Screen
-   ***********************************************/
-  .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 40px;
-  }
-  .search-bar input {
-    flex: 1;
-    padding: 12px 16px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-  }
-  .cancel-btn {
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: #007aff;
-    cursor: pointer;
-  }
-  .info-text {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #666;
-  }
-  
-  /***********************************************
-   * Tab Bar (Cancun Screens)
-   ***********************************************/
-  .tab-bar {
-    display: flex;
-    justify-content: space-around;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 16px;
-  }
-  .tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 14px;
-    color: #007aff;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-  }
-  .tab.active {
-    font-weight: 600;
-    border-bottom: 3px solid #007aff;
-  }
-  
-  /***********************************************
-   * Card List & Cards
-   ***********************************************/
-  .card-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .card {
-    background: #f9f9f9;
-    border-radius: 12px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  }
-  .card img {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    object-fit: cover;
-  }
-  .card .card-info {
-    flex: 1;
-  }
-  .card .card-info p {
-    margin: 3px 0;
-    font-size: 14px;
-  }
-  .card .card-info p:first-child {
-    font-weight: 600;
-  }
-  .like-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #ff4444;
-    cursor: pointer;
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    transition: transform 0.2s;
-  }
-  .like-btn:hover {
-    transform: scale(1.2);
-  }
-  
-  /***********************************************
-   * Bottom Navigation
-   ***********************************************/
-  .bottom-nav {
-    height: 60px;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    font-size: 12px;
-    color: #333;
-    transition: color 0.2s;
-  }
-  .nav-item:hover {
-    color: #007aff;
-  }
-  .nav-item img {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 2px;
-  }
-  
-  /***********************************************
-   * Itinerary Screen
-   ***********************************************/
-  #itineraryPage h2 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  
-  /***********************************************
-   * Reviews Screen
-   ***********************************************/
-  #reviewsPage h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .review-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .add-review-form {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .add-review-form input,
-  .add-review-form textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-  }
-  .submit-review-btn {
-    background: #007aff;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .submit-review-btn:hover {
-    background: #005bbb;
-  }
-  
-  /***********************************************
-   * Profile Screen
-   ***********************************************/
-  #profilePage h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 0 10px;
-  }
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .profile-name {
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .profile-email {
-    font-size: 14px;
-    color: #555;
-  }
-  .profile-bio {
-    font-size: 14px;
-    text-align: center;
-  }
+/* Global & Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { font-family:'Inter',sans-serif; }
+body { background:#e0e0e0; display:flex; align-items:center; justify-content:center; height:100vh; }
 
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover; 
-  }
+/* Phone Frame */
+.phone { width:375px; height:812px; background:#fff; border-radius:30px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 20px 40px rgba(0,0,0,0.2); }
 
-  /* Position the itinerary buttons at bottom-right of each card */
-.card .itinerary-btn {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-  }
-  
-  /* Base styling for both Add and Remove buttons */
-  .itinerary-btn {
-    background: #007aff;     
-    color: #fff;             
-    border: none;
-    border-radius: 20px;
-    padding: 6px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-    transition: background 0.2s;
-  }
-  
-  /* Hover effect for the Add button */
-  .itinerary-btn:hover {
-    background: #005bbb;
-  }
-  
-  /* The Remove button (differentiated by the .remove-btn class) */
-  .itinerary-btn.remove-btn {
-    background: #ff4444;      
-  }
-  
-  /* Hover effect for the Remove button */
-  .itinerary-btn.remove-btn:hover {
-    background: #cc0000;
-  }
+/* Status Bar */
+.status-bar { height:24px; background:#f8f8f8; border-bottom:1px solid #ddd; padding:0 8px; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#666; }
+.status-icons { display:flex; gap:8px; }
 
-  /* Delete Review Button Styling */
-.delete-review-btn {
-    background: #ff4444;     
-    color: #fff;              
-    border: none;
-    border-radius: 20px;     
-    padding: 6px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .delete-review-btn:hover {
-    background: #cc0000;
-  }
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-  }
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-  }
-  .calendar-day {
-    background: #f0f0f0;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  .calendar-day h4 {
-    margin-bottom: 6px;
-  }
-  .calendar-event {
-    background: #007aff;
-    color: #fff;
-    padding: 4px 6px;
-    margin: 4px 0;
-    border-radius: 4px;
-    font-size: 12px;
-  }
-  /* ——— Trip + Calendar Overrides ——— */
-.trip-controls select,
-.trip-controls button {
-  margin-right: 8px;
-  padding: 4px 8px;
-  font-size: 14px;
-}
+/* Top Nav */
+.top-nav { height:44px; background:#fff; border-bottom:1px solid #ddd; display:flex; align-items:center; justify-content:center; position:relative; }
+.top-nav.hidden { display:none!important; }
+.title-center { font-size:16px; font-weight:600; }
+.left-icon, .right-icon { position:absolute; top:0; bottom:0; display:flex; align-items:center; padding:0 16px; cursor:pointer; color:#007aff; font-size:18px; }
+.left-icon { left:0; }
+.right-icon { right:0; }
 
+/* Screens */
+.screen { flex:1; padding:20px; overflow-y:auto; display:none; }
+.screen.active { display:block; }
+
+/* Home */
+.home-title { text-align:center; margin:60px 0 30px; font-size:24px; }
+.big-btn { display:block; margin:0 auto 20px; background:#007aff; color:#fff; border:none; border-radius:24px; padding:14px 30px; font-size:16px; font-weight:600; cursor:pointer; box-shadow:0 3px 8px rgba(0,0,0,0.15); transition:background 0.2s; }
+.big-btn:hover { background:#0063cc; }
+
+/* Sections */
+.home-section-title { margin:16px 0 8px; font-size:18px; }
+
+/* Trending */
+.trending-row { display:flex; gap:10px; }
+.trending-card { flex:1; background:#fff; border-radius:10px; padding:10px; position:relative; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.trending-card h3 { font-size:14px; margin:4px 0; }
+.trending-card p { font-size:12px; color:#666; }
+.heart-icon { position:absolute; top:8px; right:10px; color:#ff4444; font-size:14px; }
+
+/* Review */
+.review-card { background:#cfeaff; border-radius:10px; padding:12px; display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+.review-icon { width:40px; height:40px; }
+.review-info h3 { font-size:14px; margin-bottom:5px; }
+.review-info p { font-size:12px; color:#333; }
+.submit-review-btn { background:#007aff; color:#fff; border:none; border-radius:6px; padding:10px; cursor:pointer; }
+.submit-review-btn:hover { background:#005bbb; }
+
+/* Search */
+.search-bar { display:flex; gap:10px; margin-top:40px; }
+.search-bar input { flex:1; padding:12px 16px; border:1px solid #ccc; border-radius:20px; }
+.cancel-btn { background:none; border:none; color:#007aff; cursor:pointer; }
+
+/* Tabs */
+.tab-bar { display:flex; justify-content:space-around; border-bottom:1px solid #ddd; margin-bottom:16px; }
+.tab { flex:1; text-align:center; padding:10px 0; cursor:pointer; color:#007aff; }
+.tab.active { font-weight:600; border-bottom:3px solid #007aff; }
+
+/* Cards */
+.card-list { display:flex; flex-direction:column; gap:15px; }
+.card { background:#f9f9f9; border-radius:12px; padding:10px; display:flex; align-items:center; gap:10px; position:relative; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+.card img { width:60px; height:60px; border-radius:8px; object-fit:cover; }
+.card-info { flex:1; }
+.card-info p { margin:3px 0; font-size:14px; }
+.like-btn { position:absolute; top:12px; right:12px; background:none; border:none; font-size:20px; color:#ff4444; cursor:pointer; }
+.like-btn:hover { transform:scale(1.2); }
+
+/* Itinerary Buttons */
+.itinerary-btn { position:absolute; bottom:8px; right:8px; background:#007aff; color:#fff; border:none; border-radius:20px; padding:6px 12px; font-size:12px; cursor:pointer; }
+.itinerary-btn:hover { background:#005bbb; }
+.itinerary-btn.remove-btn { background:#ff4444; }
+.itinerary-btn.remove-btn:hover { background:#cc0000; }
+
+/* Bottom Nav */
+.bottom-nav { height:60px; background:#fff; border-top:1px solid #ddd; display:flex; justify-content:space-around; align-items:center; }
+.nav-item { display:flex; flex-direction:column; align-items:center; cursor:pointer; font-size:12px; color:#333; }
+.nav-item img { width:24px; height:24px; margin-bottom:2px; }
+.nav-item:hover { color:#007aff; }
+
+/* Itineraries Overview */
+.itinerary-overview-list { display:flex; gap:10px; overflow-x:auto; padding:10px 0; }
+.itinerary-overview-card { width:100px; min-width:100px; height:120px; background:#f9f9f9; border-radius:10px; box-shadow:0 2px 4px rgba(0,0,0,0.1); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px; margin-right:10px; cursor:pointer; text-align:center; }
+.itinerary-overview-card img { width:80px; height:60px; border-radius:6px; object-fit:cover; margin-bottom:5px; }
+.itinerary-overview-card h4 { font-size:14px; margin-bottom:4px; }
+.itinerary-overview-card p { font-size:12px; color:#666; }
+.itinerary-overview-card.add-card { border:2px dashed #007aff; color:#007aff; }
+.itinerary-overview-card.add-card .plus { font-size:24px; }
+
+/* Create Itinerary Form */
+#createItineraryPage label { display:block; margin-top:10px; font-size:14px; }
+#createItineraryPage input { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; margin-top:4px; }
+
+/* Back Button */
+.back-btn { background:none; border:none; color:#007aff; font-size:16px; margin-bottom:10px; cursor:pointer; }
+
+/* Calendar */
 .calendar-grid {
   display: grid;
-  /* 50px for the hour gutter, then one column per weekday */
-  grid-template-columns: 50px repeat(7, 1fr);
   gap: 1px;
   background: #ddd;
   margin-top: 10px;
+
+  /* each hour row is 50px tall */
+  grid-auto-rows: 50px;
+
+  /* fix total height and scroll vertically */
+  max-height: 500px;      /* tweak as needed for your viewport */
+  overflow-y: auto;
 }
-.calendar-hour {
-  background: #f0f0f0;
-  text-align: right;
-  padding-right: 6px;
-  font-size: 12px;
-  line-height: 40px;
-}
-.calendar-cell {
-  background: #fff;
-  height: 40px;
-  position: relative;
-}
-.calendar-event {
+.calendar-hour { background:#f0f0f0; text-align:right; padding-right:6px; line-height:40px; font-size:12px; }
+.calendar-cell { background:#fff; height:40px; position:relative; }
+.calendar-event { position:absolute; top:2px; left:2px; right:2px; background:#007aff; color:#fff; padding:2px 4px; border-radius:4px; font-size:12px; cursor:grab; }
+
+/* Modal */
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; }
+.modal.hidden { display:none; }
+.modal-content { background:#fff; padding:20px; border-radius:10px; width:260px; display:flex; flex-direction:column; gap:10px; }
+
+/* ── Drag handle on cards & events ── */
+.drag-handle {
   position: absolute;
-  left: 2px; right: 2px; top: 2px;
-  background: #007aff;
-  color: #fff;
+  top: 4px;
+  left: 4px;
   font-size: 12px;
-  padding: 2px 4px;
-  border-radius: 4px;
+  color: #666;
+  cursor: grab;
+  user-select: none;
 }
 
-  
-  
+/* ── Allow calendar events to resize vertically ── */
+.calendar-event {
+  resize: vertical;
+  overflow: auto;
+}
+
