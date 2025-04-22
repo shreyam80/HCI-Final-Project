@@ -20,9 +20,21 @@ let reviews = [
 /***********************************************
  * Trip + Itinerary State
  ***********************************************/
-let trips = [
-  { name: "Default Trip", destination: "", startDate: "", endDate: "", image: "", items: [] }
-];
+// give your default trip at least a 3‐day window
+ const today = new Date();
+ const pad = (n)=>String(n).padStart(2,'0');
+ const iso = d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+ let trips = [
+   {
+     name: "Default Trip",
+     destination: "",
+     startDate: iso(today),
+     endDate: iso(new Date(today.getTime() + 2*24*60*60*1000)), // +2 days
+     image: "",
+     items: []
+   }
+ ];
+
 let currentTripIndex = 0;
 let selectedPlace = null;
 
