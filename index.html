@@ -14,7 +14,7 @@
       <span class="time">8:41</span>
       <div class="status-icons">
         <span class="icon">📶</span>
-        <span class="icon">Wi‑Fi</span>
+        <span class="icon">Wi-Fi</span>
         <span class="icon">🔋</span>
       </div>
     </div>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- HOME SCREEN -->
-    <div id="homePage" class="screen active">
+    <div id="homePage" class="screen">
       <h1 class="home-title">Travel Express</h1>
       <button class="big-btn" onclick="showScreen('locationPage')">Search Location</button>
       <h2 class="home-section-title">Trending</h2>
@@ -147,6 +147,7 @@
         <p class="profile-email">johndoe@example.com</p>
         <p class="profile-bio">I am a food enthusiast! Come along on my journey to explore more places, food, and places!</p>
       </div>
+      <button class="big-btn login-btn" onclick="handleLogout()">Log Out</button>
     </div>
 
     <!-- ITINERARIES OVERVIEW -->
@@ -196,6 +197,25 @@
         <button onclick="confirmAddToItinerary()">Add</button>
         <button onclick="closeItineraryModal()">Cancel</button>
       </div>
+    </div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginPage" class="screen active">
+      <h1 class="login-title">Log In</h1>
+      <input type="text" id="loginUsername" placeholder="Username" class="login-input" />
+      <input type="password" id="loginPassword" placeholder="Password" class="login-input" />
+      <button class="big-btn login-btn" onclick="handleLogin()">Login</button>
+      <p class="switch-auth">Don't have an account? <a href="#" onclick="showScreen('signUpPage')">Sign up</a></p>
+    </div>
+
+    <!-- SIGN-UP SCREEN -->
+    <div id="signUpPage" class="screen">
+      <h1 class="login-title">Create Account</h1>
+      <input type="text" id="signUpUsername" placeholder="Username" class="login-input" />
+      <input type="password" id="signUpPassword" placeholder="Password" class="login-input" />
+      <input type="password" id="signUpPassword2" placeholder="Confirm Password" class="login-input" />
+      <button class="big-btn login-btn" onclick="handleSignUp()">Sign Up</button>
+      <p class="switch-auth">Already have an account? <a href="#" onclick="showScreen('loginPage')">Log in</a></p>
     </div>
 
     <!-- BOTTOM NAVIGATION -->

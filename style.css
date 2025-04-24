@@ -103,7 +103,7 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
   grid-auto-rows: 50px;
 
   /* fix total height and scroll vertically */
-  max-height: 500px;      /* tweak as needed for your viewport */
+  max-height: 500px;
   overflow-y: auto;
 }
 .calendar-hour { background:#f0f0f0; text-align:right; padding-right:6px; line-height:40px; font-size:12px; }
@@ -115,20 +115,23 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
 .modal.hidden { display:none; }
 .modal-content { background:#fff; padding:20px; border-radius:10px; width:260px; display:flex; flex-direction:column; gap:10px; }
 
-/* ── Drag handle on cards & events ── */
-.drag-handle {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  font-size: 12px;
-  color: #666;
-  cursor: grab;
-  user-select: none;
-}
+/* Drag handle and resizing */
+.drag-handle { position:absolute; top:4px; left:4px; font-size:12px; color:#666; cursor:grab; user-select:none; }
+.calendar-event { resize:vertical; overflow:auto; }
 
-/* ── Allow calendar events to resize vertically ── */
-.calendar-event {
-  resize: vertical;
-  overflow: auto;
+/* — Login Screen Styles — */
+.login-title {
+  text-align:center; margin:80px 0 40px; font-size:24px; color:#333;
 }
+.login-input {
+  display:block; width:80%; margin:12px auto; padding:14px 16px;
+  border:1px solid #ccc; border-radius:24px; font-size:16px; font-family:'Inter',sans-serif;
+}
+.login-btn { display:block; width:80%; margin:24px auto; }
 
+/* Auth Screen Switch Link */
+.switch-auth {
+  text-align:center; margin-top:16px; font-size:14px; color:#555;
+}
+.switch-auth a { color:#007aff; text-decoration:none; }
+.switch-auth a:hover { text-decoration:underline; }
