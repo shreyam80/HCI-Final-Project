@@ -121,9 +121,11 @@
       <div class="card-list" id="cancunList4"></div>
     </div>
 
-    <!-- LIKES SCREEN -->
-    <div id="likesPage" class="screen">
-      <div class="card-list" id="likesList"></div>
+    <!-- BROWSE ITINERARIES SCREEN -->
+    <div id="browseItinerariesPage" class="screen">
+      <h2>Browse Itineraries</h2>
+      <input type="text" id="browseSearchInput" placeholder="Search itineraries..." oninput="filterBrowseItineraries()" style="margin-bottom: 10px; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;" />
+      <div class="card-list" id="browseItinerariesList"></div>
     </div>
 
     <!-- REVIEWS SCREEN -->
@@ -224,8 +226,8 @@
       <div class="nav-item" onclick="showScreen('homePage')">
         <img src="https://img.icons8.com/ios-filled/24/000000/home.png"/><span>Home</span>
       </div>
-      <div class="nav-item" onclick="goToLikes()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/hearts.png"/><span>My Likes</span>
+      <div class="nav-item" onclick="goToBrowseItineraries()">
+        <img src="https://img.icons8.com/ios-filled/24/000000/search.png"/><span>Browse</span>
       </div>
       <div class="nav-item" onclick="goToOverview()">
         <img src="https://img.icons8.com/ios-filled/24/000000/calendar.png"/><span>Itineraries</span>
@@ -248,6 +250,14 @@
       <button onclick="closeInviteModal()">Cancel</button>
     </div>
   </div>
+  <!-- VIEW OTHER USER ITINERARY PAGE -->
+  <div id="viewOtherItineraryPage" class="screen">
+    <button class="back-btn" onclick="goToBrowseItineraries()">&larr; Back</button>
+    <h2 id="viewOtherTitle">Itinerary Name</h2>
+    <h4 id="viewOtherSubtitle">By User • Date Range</h4>
+    <div id="otherCalendarGrid" class="calendar-grid"></div>
+  </div>
+
 
 
   <script src="script.js"></script>
