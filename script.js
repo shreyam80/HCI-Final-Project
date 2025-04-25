@@ -501,17 +501,30 @@ function renderItinerary() {
     if (matched.length !== 3) return;
 
     const correctOrder = ["c2", "c1", "c3"];
-    const sortedByTime = matched.slice().sort((a, b) =>
-      parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0])
+    const matchedSorted = matched.slice().sort((a, b) =>
+      parseInt(a.time.split(":")[0], 10) - parseInt(b.time.split(":")[0], 10)
     );
-    const sortedIds = sortedByTime.map(x => x.id).join(",");
-    const correctIds = correctOrder.join(",");
-    if (sortedIds === correctIds) return;
+    const matchedIds = matchedSorted.map(item => item.id);
     
-    const allHeaders = Array.from(grid.querySelectorAll(".calendar-hour")).slice(1, days.length + 1);
-    const headerCell = allHeaders.find(h => h.innerText.trim().startsWith(day));
+    // Check if matchedIds are in the correct order
+    const isCorrectOrder = JSON.stringify(matchedIds) === JSON.stringify(correctOrder);
+    
+    if (isCorrectOrder) return;
+    
+    
+      // const headerCells = grid.querySelectorAll(".calendar-hour");
+      // const headerCell  = headerCells[1 + dayIndex]; // 0 is the blank corner
+    const headerCell = grid.children[1 + dayIndex];
     headerCell.style.background = "#ffdddd";
-    headerCell.innerHTML += `<br><span style="color:#cc0000;font-size:10px;">❗ Unoptimized route</span><br>`;
+    const alertSpan = document.createElement("span");
+    alertSpan.innerText = "❗ Unoptimized route";
+    alertSpan.style.color = "#cc0000";
+    alertSpan.style.fontSize = "10px";
+    alertSpan.style.display = "block";
+    alertSpan.style.marginTop = "1px";  // less spacing
+    alertSpan.style.lineHeight = "0.8";
+
+    headerCell.appendChild(alertSpan);
     const btn = document.createElement("button");
     btn.innerText = "Optimize Now";
     Object.assign(btn.style, {
