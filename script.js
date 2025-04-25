@@ -336,6 +336,21 @@ function populateOverview() {
     if (eDate && eDate < now) past.append(card);
     else up.append(card);
   });
+
+  // 👇 Append the "Add Itinerary" card at the end
+  const addCard = document.createElement("div");
+  addCard.className = "itinerary-overview-card add-card";
+  addCard.onclick = goToCreateItinerary;
+
+  const plus = document.createElement("span");
+  plus.className = "plus";
+  plus.innerText = "+";
+
+  const label = document.createElement("span");
+  label.innerText = "Add Itinerary";
+
+  addCard.append(plus, label);
+  up.appendChild(addCard);
 }
 
 /***********************************************
