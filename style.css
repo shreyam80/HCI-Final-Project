@@ -180,3 +180,10 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
   border-radius: 4px;
   margin-top: 6px;
 }
+.calendar-grid .calendar-hour:nth-child(-n+8) {
+  position: sticky;
+  top: 0;
+  background: #f0f0f0;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

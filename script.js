@@ -484,6 +484,60 @@ function renderItinerary() {
 
     cell.appendChild(ev);
   });
+
+  // === Smart Suggestion: Location Optimization ===
+  const mustHaveIds = ["c2", "c1", "c3"]; // Mayan Ruins, Beachside Tacos, Handicraft Shop
+  const dayToItems = {};
+
+  trip.items.forEach(item => {
+    if (!item.time || !item.day) return;
+    if (!dayToItems[item.day]) dayToItems[item.day] = [];
+    dayToItems[item.day].push(item);
+  });
+
+  days.forEach((day, dayIndex) => {
+    const itemsToday = dayToItems[day] || [];
+    const matched = itemsToday.filter(it => mustHaveIds.includes(it.id));
+    if (matched.length !== 3) return;
+
+    const correctOrder = ["c2", "c1", "c3"];
+    const sortedByTime = matched.slice().sort((a, b) =>
+      parseInt(a.time.split(":")[0]) - parseInt(b.time.split(":")[0])
+    );
+    const sortedIds = sortedByTime.map(x => x.id).join(",");
+    const correctIds = correctOrder.join(",");
+    if (sortedIds === correctIds) return;
+    
+    const allHeaders = Array.from(grid.querySelectorAll(".calendar-hour")).slice(1, days.length + 1);
+    const headerCell = allHeaders.find(h => h.innerText.trim().startsWith(day));
+    headerCell.style.background = "#ffdddd";
+    headerCell.innerHTML += `<br><span style="color:#cc0000;font-size:10px;">❗ Unoptimized route</span><br>`;
+    const btn = document.createElement("button");
+    btn.innerText = "Optimize Now";
+    Object.assign(btn.style, {
+      background: "#cc0000",
+      color: "#fff",
+      border: "none",
+      padding: "2px 6px",
+      borderRadius: "4px",
+      fontSize: "10px",
+      fontWeight: "600",
+      cursor: "pointer",
+      marginTop: "4px",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.2)"
+    });
+    btn.onclick = () => {
+      const baseHour = Math.min(...matched.map(x => parseInt(x.time)));
+      const sorted = mustHaveIds.map(id => matched.find(x => x.id === id));
+      sorted.forEach((ev, i) => {
+        ev.time = `${baseHour + i}:00`;
+        ev.day = day;
+      });
+      renderItinerary();
+    };
+    headerCell.appendChild(btn);
+  });
+
 }
 
 function handleDrop(placeId, day, hour) {
