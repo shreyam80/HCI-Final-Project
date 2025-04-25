@@ -4,11 +4,11 @@
  * Data Setup
  ***********************************************/
 const samplePlacesAll = [
-  { id: "c1", name: "Beachside Tacos", category: "Restaurants", image: "tacos.png" },
-  { id: "c2", name: "Mayan Ruins Tour", category: "All", image: "mayan_ruins.png" },
+  { id: "c1", name: "Beachside Tacos", category: "Restaurants", image: "tacos.png", open: 16, close: 20 },
+  { id: "c2", name: "Mayan Ruins Tour", category: "All", image: "mayan_ruins.png", open: 8, close: 19 },
   { id: "c3", name: "Local Handicraft Shop", category: "Shops", image: "handicraft.png" },
-  { id: "c4", name: "Cancun Seafood Fest", category: "Restaurants", image: "seafood.png" },
-  { id: "c5", name: "Romantic Sunset Cruise", category: "All", image: "cruise.png" },
+  { id: "c4", name: "Cancun Seafood Fest", category: "Restaurants", image: "seafood.png", open: 16, close: 20 },
+  { id: "c5", name: "Romantic Sunset Cruise", category: "All", image: "cruise.png", open: 18, close: 22 },
   { id: "c6", name: "Resort Gift Shop", category: "Shops", image: "gift_shop.png" },
 ];
 
@@ -379,6 +379,23 @@ function openEditItinerary(idx) {
   renderItinerary();
 }
 
+function showAlert(msg) {
+  const popup = document.createElement("div");
+  popup.innerText = msg;
+  popup.style.position = "fixed";
+  popup.style.top = "20px";
+  popup.style.left = "50%";
+  popup.style.transform = "translateX(-50%)";
+  popup.style.background = "#ff4444";
+  popup.style.color = "#fff";
+  popup.style.padding = "10px 20px";
+  popup.style.borderRadius = "8px";
+  popup.style.zIndex = "9999";
+  popup.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+  document.body.appendChild(popup);
+  setTimeout(() => popup.remove(), 2500);
+}
+
 function renderItinerary() {
   const grid = document.getElementById("calendarGrid");
   const unsch= document.getElementById("unscheduledList");
@@ -470,20 +487,26 @@ function renderItinerary() {
 }
 
 function handleDrop(placeId, day, hour) {
-  const arr = trips[currentTripIndex].items;
-  const uns = arr.find(i => i.id === placeId && !i.time);
-  if (uns) {
-    uns.day  = day;
-    uns.time = `${hour}:00`;
-  } else {
-    const sch = arr.find(i => i.id === placeId && i.time);
-    if (sch) {
-      sch.day  = day;
-      sch.time = `${hour}:00`;
-    }
+  const tripItems = trips[currentTripIndex].items;
+  const place = samplePlacesAll.find(p => p.id === placeId);
+  const item = tripItems.find(i => i.id === placeId);
+
+  if (!place || !item) return;
+
+  const openHour = place.open ?? 0;
+  const closeHour = place.close ?? 24;
+
+  if (hour < openHour || hour >= closeHour) {
+    showAlert(`"${place.name}" is only open from ${openHour}:00 to ${closeHour}:00`);
+    return;
   }
+
+  item.day = day;
+  item.time = `${hour}:00`;
+
   renderItinerary();
 }
+
 
 /***********************************************
  * Add to Itinerary Modal
