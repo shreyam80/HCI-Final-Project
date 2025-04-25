@@ -183,6 +183,10 @@
     <div id="itineraryEditPage" class="screen">
       <button class="back-btn" onclick="goToOverview()">&larr; Back</button>
       <h2 id="editItineraryTitle">Itinerary</h2>
+      <!-- Invite Friend -->
+      <button class="big-btn invite-btn" onclick="openInviteModal()">Invite Friend</button>
+      <div id="invitedStatusContainer"></div>
+
       <h3>Unscheduled Experiences</h3>
       <div id="unscheduledList" class="card-list"></div>
       <h3>Scheduled Calendar</h3>
@@ -237,6 +241,17 @@
       </div>
     </div>
   </div>
+  <!-- Invite Modal -->
+  <div id="inviteModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Invite Friends</h3>
+      <input type="text" id="friendSearch" placeholder="Search friends..." oninput="filterFriends()" />
+      <div id="friendList"></div>
+      <button id="inviteButton" onclick="inviteSelectedFriends()" disabled>Invite</button>
+      <button onclick="closeInviteModal()">Cancel</button>
+    </div>
+  </div>
+
 
   <script src="script.js"></script>
 </body>

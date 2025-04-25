@@ -76,7 +76,7 @@ const iso   = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())
 
 let trips = [
   {
-    name: "Default Trip",
+    name: "Puerto Rico",
     destination: "",
     startDate: iso(today),
     endDate:   iso(new Date(today.getTime() + 2*24*60*60*1000)), // +2 days
@@ -523,6 +523,101 @@ function confirmAddToItinerary() {
 function closeItineraryModal() {
   document.getElementById("itinerarySelectModal").classList.add("hidden");
   selectedPlace = null;
+}
+/***********************************************
+ * Invite Friends
+ ***********************************************/
+const allFriends = [
+  { id: 1, name: "Alice Johnson", image: "https://i.pravatar.cc/36?u=1" },
+  { id: 2, name: "Bob Smith", image: "https://i.pravatar.cc/36?u=2" },
+  { id: 3, name: "Charlie Lee", image: "https://i.pravatar.cc/36?u=3" },
+  { id: 4, name: "Diana Chen", image: "https://i.pravatar.cc/36?u=4" },
+];
+
+let invitedFriends = []; // [{ id, name, status: "pending" | "accepted" }]
+
+function openInviteModal() {
+  document.getElementById("inviteModal").classList.remove("hidden");
+  renderFriendList();
+}
+
+function closeInviteModal() {
+  document.getElementById("inviteModal").classList.add("hidden");
+  document.getElementById("friendSearch").value = "";
+  renderFriendList();
+}
+
+function renderFriendList() {
+  const list = document.getElementById("friendList");
+  const search = document.getElementById("friendSearch").value.toLowerCase();
+  list.innerHTML = "";
+
+  allFriends.forEach(friend => {
+    if (!friend.name.toLowerCase().includes(search)) return;
+
+    const entry = document.createElement("div");
+    entry.className = "friend-entry";
+
+    const img = document.createElement("img");
+    img.src = friend.image;
+
+    const label = document.createElement("label");
+    label.innerText = friend.name;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = friend.id;
+    checkbox.addEventListener("change", updateInviteButton);
+
+    entry.append(img, label, checkbox);
+    list.appendChild(entry);
+  });
+
+  updateInviteButton();
+}
+
+function updateInviteButton() {
+  const anyChecked = [...document.querySelectorAll("#friendList input[type='checkbox']")]
+    .some(box => box.checked);
+  document.getElementById("inviteButton").disabled = !anyChecked;
+}
+
+function inviteSelectedFriends() {
+  const selected = [...document.querySelectorAll("#friendList input[type='checkbox']")]
+    .filter(box => box.checked)
+    .map(box => parseInt(box.value));
+
+  const newInvites = allFriends
+    .filter(f => selected.includes(f.id))
+    .filter(f => !invitedFriends.find(i => i.id === f.id))
+    .map(f => ({ ...f, status: "pending" }));
+
+  invitedFriends.push(...newInvites);
+
+  closeInviteModal();
+  renderInvitedStatus();
+}
+
+function renderInvitedStatus() {
+  const container = document.getElementById("invitedStatusContainer");
+  container.innerHTML = "";
+
+  if (!invitedFriends.length) return;
+
+  const heading = document.createElement("h4");
+  heading.innerText = "Shared with:";
+  container.appendChild(heading);
+
+  invitedFriends.forEach(f => {
+    const tag = document.createElement("div");
+    tag.className = "invited-tag";
+    tag.innerText = `${f.name} – ${f.status}`;
+    container.appendChild(tag);
+  });
+}
+
+function filterFriends() {
+  renderFriendList();
 }
 
 /***********************************************

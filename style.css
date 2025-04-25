@@ -135,3 +135,48 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
 }
 .switch-auth a { color:#007aff; text-decoration:none; }
 .switch-auth a:hover { text-decoration:underline; }
+/* Invite Friend Styles */
+.invite-btn {
+  background: #28a745;
+}
+.invite-btn:hover {
+  background: #218838;
+}
+
+.friend-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+.friend-entry img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.friend-entry label {
+  flex: 1;
+}
+.friend-entry input[type="checkbox"] {
+  transform: scale(1.2);
+}
+
+#friendList {
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  background: #f8f8f8;
+}
+
+.invited-tag {
+  font-size: 12px;
+  background: #d4edda;
+  color: #155724;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+}
