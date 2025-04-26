@@ -61,8 +61,6 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
 .card img { width:60px; height:60px; border-radius:8px; object-fit:cover; }
 .card-info { flex:1; }
 .card-info p { margin:3px 0; font-size:14px; }
-.like-btn { position:absolute; top:12px; right:12px; background:none; border:none; font-size:20px; color:#ff4444; cursor:pointer; }
-.like-btn:hover { transform:scale(1.2); }
 
 /* Itinerary Buttons */
 .itinerary-btn { position:absolute; bottom:8px; right:8px; background:#007aff; color:#fff; border:none; border-radius:20px; padding:6px 12px; font-size:12px; cursor:pointer; }
@@ -98,13 +96,18 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
   gap: 1px;
   background: #ddd;
   margin-top: 10px;
-
-  /* each hour row is 50px tall */
   grid-auto-rows: 50px;
-
-  /* fix total height and scroll vertically */
   max-height: 500px;
   overflow-y: auto;
+  overflow-x: auto;   /* ➡️ add this */
+  max-width: 100%;    /* ➡️ add this */
+}
+.calendar-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.calendar-grid::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
 }
 .calendar-hour { background:#f0f0f0; text-align:right; padding-right:6px; line-height:40px; font-size:12px; }
 .calendar-cell { background:#fff; height:40px; position:relative; }
@@ -189,31 +192,23 @@ body { background:#e0e0e0; display:flex; align-items:center; justify-content:cen
 }
 .copy-event-btn {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  background: #007aff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 12px;
-  cursor: pointer;
-}
-.copy-event-btn {
-  position: absolute;
   top: 2px;
   right: 2px;
   background: #007aff;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 12px;
   cursor: pointer;
+  z-index: 2;
 }
-.calendar-grid {
+.copy-event-btn:hover {
+  background: #005bbb;
+}
+/* .calendar-grid {
   max-width: 100%;
   overflow-x: auto;
-}
+} */
 
 

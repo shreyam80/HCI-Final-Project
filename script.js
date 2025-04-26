@@ -347,8 +347,8 @@ function copyItineraryToMyTrips() {
     startDate: iso(today),
     endDate: iso(new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000)),
     image: "", // you can add a default image
-    items: currentViewedItinerary.items.map(name => {
-      const place = samplePlacesAll.find(p => p.name === name);
+    items: currentViewedItinerary.items.map(item => {
+      samplePlacesAll.find(p => p.id === item.id);
       return place ? { ...place } : { name, category: "Unknown" };
     })
   };
@@ -597,7 +597,7 @@ function renderItinerary() {
     addBtn.className = "copy-event-btn";
     addBtn.onclick = () => addToItinerary(place); // or a modal if multiple trips
     
-    eventDiv.appendChild(addBtn);
+    ev.appendChild(addBtn);
 
 
     const handle = document.createElement("span");
