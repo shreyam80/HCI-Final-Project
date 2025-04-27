@@ -5,6 +5,9 @@
   <title>Travel Express</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dtnwKpYxD2pqj9f6z0YvXbVf7W+V+/VaaIqh+o33fStU1y449eEnz1+VspqlL4PdRgoQ1Tp3T3tUuXKQNNc3IQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -21,33 +24,33 @@
 
     <!-- Top Navigation Bars -->
     <div id="topNavHome" class="top-nav">
-      <span class="title-center">Travel Express</span>
+      <span class="logo">Travel Express</span>
     </div>
     <div id="topNavLocation" class="top-nav hidden">
-      <span class="title-center">Travel Express</span>
+      <span class="logo">Travel Express</span>
     </div>
     <div id="topNavCancun" class="top-nav hidden">
-      <span class="left-icon" onclick="goHome()">&larr;</span>
+      <span class="left-icon" onclick="goHome()"><i class="fas fa-arrow-left"></i></span>
       <span class="title-center">Cancun</span>
     </div>
     <div id="topNavResults" class="top-nav hidden">
-      <span class="left-icon" onclick="showScreen('locationPage')">&larr;</span>
+      <span class="left-icon" onclick="showScreen('locationPage')"><i class="fas fa-arrow-left"></i></span>
       <span class="title-center">Search Results</span>
     </div>
 
     <!-- HOME SCREEN -->
     <div id="homePage" class="screen">
-      <h1 class="home-title">Travel Express</h1>
-      <button class="big-btn" onclick="showScreen('locationPage')">Search Location</button>
+      <h1 class="home-title"><span class="logo">Travel Express</span></h1>
+      <button class="big-btn" onclick="showScreen('locationPage')"><i class="fas fa-search"></i> Search Location</button>
       <h2 class="home-section-title">Trending</h2>
       <div class="trending-row">
         <div class="trending-card">
-          <div class="heart-icon">♥</div>
+          <div class="heart-icon"><i class="fas fa-heart"></i></div>
           <h3>Cafe Roma</h3>
           <p>Restaurant | 0.5 mi | 4.5 Stars</p>
         </div>
         <div class="trending-card">
-          <div class="heart-icon">♥</div>
+          <div class="heart-icon"><i class="fas fa-heart"></i></div>
           <h3>Surf's Up</h3>
           <p>Excursion | 1.2 mi | 4.8 Stars</p>
         </div>
@@ -59,7 +62,7 @@
           <h3>City Museum</h3>
           <p>"A must-visit! Very walkable and fun exhibits."</p>
         </div>
-        <button class="add-itinerary-btn" onclick="addToItinerary({id:'cafe',name:'City Museum',category:'All',image:''})">+ Add to Itinerary</button>
+        <button class="add-itinerary-btn" onclick="addToItinerary({id:'cafe',name:'City Museum',category:'All',image:''})"><i class="fas fa-plus"></i> Add to Itinerary</button>
       </div>
     </div>
 
@@ -119,7 +122,7 @@
     <!-- BROWSE ITINERARIES SCREEN -->
     <div id="browseItinerariesPage" class="screen">
       <h2>Browse Itineraries</h2>
-      <input type="text" id="browseSearchInput" placeholder="Search itineraries..." oninput="filterBrowseItineraries()" style="margin-bottom: 10px; width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;" />
+      <input type="text" id="browseSearchInput" placeholder="Search itineraries..." oninput="filterBrowseItineraries()" style="margin-bottom: 10px; width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px;" />
       <div class="card-list" id="browseItinerariesList"></div>
     </div>
 
@@ -177,8 +180,7 @@
     <div id="itineraryEditPage" class="screen">
       <button class="back-btn" onclick="goToOverview()">&larr; Back</button>
       <h2 id="editItineraryTitle">Itinerary</h2>
-      <!-- Invite Friend -->
-      <button class="big-btn invite-btn" onclick="openInviteModal()">Invite Friend</button>
+      <button class="big-btn invite-btn" onclick="openInviteModal()"><i class="fas fa-user-friends"></i> Invite Friend</button>
       <div id="invitedStatusContainer"></div>
 
       <h3>Unscheduled Experiences</h3>
@@ -199,7 +201,7 @@
 
     <!-- LOGIN SCREEN -->
     <div id="loginPage" class="screen active">
-      <h1 class="login-title">Log In</h1>
+      <h1 class="login-title"><i class="fas fa-sign-in-alt"></i> Log In</h1>
       <input type="text" id="loginUsername" placeholder="Username" class="login-input" />
       <input type="password" id="loginPassword" placeholder="Password" class="login-input" />
       <button class="big-btn login-btn" onclick="handleLogin()">Login</button>
@@ -208,7 +210,7 @@
 
     <!-- SIGN-UP SCREEN -->
     <div id="signUpPage" class="screen">
-      <h1 class="login-title">Create Account</h1>
+      <h1 class="login-title"><i class="fas fa-user-plus"></i> Create Account</h1>
       <input type="text" id="signUpUsername" placeholder="Username" class="login-input" />
       <input type="password" id="signUpPassword" placeholder="Password" class="login-input" />
       <input type="password" id="signUpPassword2" placeholder="Confirm Password" class="login-input" />
@@ -216,44 +218,61 @@
       <p class="switch-auth">Already have an account? <a href="#" onclick="showScreen('loginPage')">Log in</a></p>
     </div>
 
+    <!-- PLACE DETAILS MODAL -->
+    <div id="placeDetailsModal" class="modal hidden">
+      <div class="modal-content details-content">
+        <button class="close-btn" onclick="closePlaceDetails()">×</button>
+        <img id="detailImg" src="" alt="Place Image" />
+        <h3 id="detailName"></h3>
+        <p id="detailDescription"></p>
+        <p><strong>Recommended time:</strong> <span id="detailTime"></span></p>
+        <p><strong>Address:</strong> <span id="detailAddress"></span></p>
+        <p><strong>Category:</strong> <span id="detailCategory"></span></p>
+        <p><strong>Rating:</strong> <span id="detailRating"></span> ★</p>
+        <p><strong>Open:</strong> <span id="detailOpen"></span> – <span id="detailClose"></span></p>
+        <p><strong>Reviews:</strong></p>
+        <ul id="detailReviews"></ul>
+      </div>
+    </div>
+
+    <!-- BROWSE OTHER ITINERARY PAGE -->
+    <div id="viewOtherItineraryPage" class="screen">
+      <button class="back-btn" onclick="goToBrowseItineraries()">&larr; Back</button>
+      <h2 id="viewOtherTitle">Itinerary Name</h2>
+      <h4 id="viewOtherSubtitle">By User • Date Range</h4>
+      <div id="otherCalendarGrid" class="calendar-grid"></div>
+    </div>
+
     <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
       <div class="nav-item" onclick="showScreen('homePage')">
-        <img src="https://img.icons8.com/ios-filled/24/000000/home.png"/><span>Home</span>
+        <i class="fas fa-home"></i><span>Home</span>
       </div>
       <div class="nav-item" onclick="goToBrowseItineraries()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/search.png"/><span>Browse</span>
+        <i class="fas fa-search"></i><span>Browse</span>
       </div>
       <div class="nav-item" onclick="goToOverview()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/calendar.png"/><span>Itineraries</span>
+        <i class="fas fa-calendar-alt"></i><span>Itineraries</span>
       </div>
       <div class="nav-item" onclick="goToReviews()">
-        <img src="https://img.icons8.com/ios-filled/24/000000/comments.png"/><span>Reviews</span>
+        <i class="fas fa-comments"></i><span>Reviews</span>
       </div>
       <div class="nav-item" onclick="goToProfile()">
         <img class="profile-pic" src="profile_picture.png"/><span>Profile</span>
       </div>
     </div>
   </div>
-  <!-- Invite Modal -->
+
+  <!-- INVITE FRIENDS MODAL -->
   <div id="inviteModal" class="modal hidden">
     <div class="modal-content">
-      <h3>Invite Friends</h3>
+      <h3><i class="fas fa-user-friends"></i> Invite Friends</h3>
       <input type="text" id="friendSearch" placeholder="Search friends..." oninput="filterFriends()" />
       <div id="friendList"></div>
       <button id="inviteButton" onclick="inviteSelectedFriends()" disabled>Invite</button>
       <button onclick="closeInviteModal()">Cancel</button>
     </div>
   </div>
-  <!-- VIEW OTHER USER ITINERARY PAGE -->
-  <div id="viewOtherItineraryPage" class="screen">
-    <button class="back-btn" onclick="goToBrowseItineraries()">&larr; Back</button>
-    <h2 id="viewOtherTitle">Itinerary Name</h2>
-    <h4 id="viewOtherSubtitle">By User • Date Range</h4>
-    <div id="otherCalendarGrid" class="calendar-grid"></div>
-  </div>
-
-
 
   <script src="script.js"></script>
 </body>

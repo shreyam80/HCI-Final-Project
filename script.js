@@ -5,12 +5,12 @@
  * Data Setup
  ***********************************************/
 const samplePlacesAll = [
-  { id: "c1", name: "Beachside Tacos", category: "Restaurants", image: "tacos.png", open: 16, close: 20 },
-  { id: "c2", name: "Mayan Ruins Tour", category: "All", image: "mayan_ruins.png", open: 8, close: 19 },
-  { id: "c3", name: "Local Handicraft Shop", category: "Shops", image: "handicraft.png" },
-  { id: "c4", name: "Cancun Seafood Fest", category: "Restaurants", image: "seafood.png", open: 16, close: 20 },
-  { id: "c5", name: "Romantic Sunset Cruise", category: "All", image: "cruise.png", open: 18, close: 22 },
-  { id: "c6", name: "Resort Gift Shop", category: "Shops", image: "gift_shop.png" },
+  { id: "c1", name: "Beachside Tacos", category: "Restaurants", image: "tacos.png", open: 16, close: 20, popularity: 87 },
+  { id: "c2", name: "Mayan Ruins Tour", category: "All", image: "mayan_ruins.png", open: 8, close: 19, popularity: 95 },
+  { id: "c3", name: "Local Handicraft Shop", category: "Shops", image: "handicraft.png", popularity: 72 },
+  { id: "c4", name: "Cancun Seafood Fest", category: "Restaurants", image: "seafood.png", open: 16, close: 20, popularity: 83 },
+  { id: "c5", name: "Romantic Sunset Cruise", category: "All", image: "cruise.png", open: 18, close: 22, popularity: 78 },
+  { id: "c6", name: "Resort Gift Shop", category: "Shops", image: "gift_shop.png", popularity: 68 },
 ];
 
 let reviews = [
@@ -126,7 +126,19 @@ function populateCancunPages() {
   // All
   const a1 = document.getElementById("cancunList1");
   a1.innerHTML = "";
-  samplePlacesAll.forEach(p => a1.appendChild(createCard(p, true)));
+  // make a shallow copy, sort, then render
+  const sortedByPop = [...samplePlacesAll]
+    .sort((a, b) => b.popularity - a.popularity);
+
+  sortedByPop.forEach((place, idx) => {
+    const card = createCard(place, true);
+    // inject a little “#rank” badge in the top‐left:
+    const badge = document.createElement("div");
+    badge.className = "popularity-badge";
+    badge.innerText = `#${idx + 1}`;
+    card.appendChild(badge);
+    a1.appendChild(card);
+  });
   // Favorites
   // const a2 = document.getElementById("cancunList2");
   // a2.innerHTML = "";
