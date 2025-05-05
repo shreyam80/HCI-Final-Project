@@ -30,3 +30,30 @@
    git clone https://github.com/yourusername/HCI-Final-Project.git
    cd HCI-Final-Project
    Open index.html in your browser or use a Live Server (for example, via VS Code) to view the application locally.
+
+2. **Download Plugins**
+
+  # 1. Add all devDeps & init Tailwind
+  npm install -D \
+    vite \
+    @vitejs/plugin-react \
+    @vitejs/plugin-react-swc \
+    tailwindcss \
+    postcss \
+    autoprefixer \
+    @tailwindcss/typography \
+    typescript \
+    @types/node \
+    @types/react \
+    @types/react-dom \
+    eslint \
+    @eslint/js \
+    eslint-plugin-react-hooks \
+    eslint-plugin-react-refresh \
+    globals \
+    typescript-eslint && \
+  npx tailwindcss init -p
+
+3. **Run**
+  npm install
+  npm run dev
